@@ -2,20 +2,38 @@ import {useState} from 'react'
 import Navbar from '../components/Navbar'
 import {useSelector} from 'react-redux'
 import { getCart, getTotalPrice } from '../redux/cartSlice'
+import useCreateOrder from '../customHook/useCreateOrder'
+import Spinner from '../components/Spinner'
 
 const CreateOrder = () => {
+
+   const {newOrder:NewOrder,isLoading}=useCreateOrder()
     const [input,setInput]=useState({
         name:'',
         address:'',
         phone:'',
     })
 
+
     const cart=useSelector(getCart)
     const totalPrice=useSelector(getTotalPrice);
 
-    const handlePlaceOrder=(e)=>{
+    if(isLoading) return <Spinner/>
+
+    const handlePlaceOrder=async (e)=>{
         e.preventDefault()
-        console.log(input)
+        const id=cart.map(item=>item.pizzaId)
+
+        const newOrder={
+          pizzaIds:id,
+          phone:input.phone,
+          address:input.address,
+          totalPrice,
+        }
+
+        NewOrder(newOrder)
+        setInput({});
+
     }
 
   return (
@@ -43,7 +61,7 @@ const CreateOrder = () => {
                 </div>
                 <div>
                 <input type="hidden" name='cart' value={JSON.stringify(cart)} />
-                <button class="btn btn-primary">Place Order ${totalPrice}</button>
+                <button className="btn btn-primary">Place Order ${totalPrice}</button>
                 </div>
            </form>
     </div>

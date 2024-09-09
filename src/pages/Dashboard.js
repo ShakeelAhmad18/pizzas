@@ -1,18 +1,22 @@
 import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import { CiDeliveryTruck } from "react-icons/ci";
+import {Outlet} from 'react-router-dom'
 import {UserContext} from '../context/UserContext'
 import {
   HomeIcon,
   UserIcon,
 } from '@heroicons/react/24/solid';
 import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/solid';
+import useSignout from '../customHook/useSignout'
 
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const {authUser}=useContext(UserContext)
+  const {signout}=useSignout()
 
+ 
   return (
     
     <div className="flex h-screen bg-slate-900 justify-center">
@@ -44,10 +48,10 @@ export default function Sidebar() {
             <Link to="/dashboard" className="btn btn-ghost text-left text-xl">{<CiDeliveryTruck/>} Order</Link>
           </li>
           <li>
-            <Link to="/profile" className="btn btn-ghost text-left text-xl">{<UserIcon className='h-5 w-5 text-primary-600'/>} Profile</Link>
+            <Link to="/dashboard/profile" className="btn btn-ghost text-left text-xl">{<UserIcon className='h-5 w-5 text-primary-600'/>} Profile</Link>
           </li>
           <li>
-            <Link to="/logout" className="btn btn-ghost text-left text-xl">{<ArrowRightOnRectangleIcon className='h-5 w-5 text-primary-600'/>} Logout</Link>
+            <button className="btn btn-ghost text-left text-xl">{<ArrowRightOnRectangleIcon className='h-5 w-5 text-primary-600' onClick={signout}/>} Logout</button>
           </li>
         </ul>
       </div>
@@ -66,6 +70,7 @@ export default function Sidebar() {
         <div>
           <h1 className="flex text-2xl font-bold text-white items-start font-serif mt-28">👏 WellCome! {authUser.name} </h1>
           {/* Add more dashboard content below */}
+          <Outlet/>
         </div>
       </div>
     </div>

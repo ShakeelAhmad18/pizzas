@@ -3,13 +3,13 @@ import {deleteCartQuantityById} from '../redux/cartSlice'
 import {useDispatch,useSelector} from 'react-redux'
 import { addItems,deleteItem } from '../redux/cartSlice';
 
-const MenuItem = ({pizza}) => {
+const MenuItem = ({pizza,filter}) => {
     const dispatch=useDispatch()
     
     const {_id:id,name,image,price,ingredients,soldOut}=pizza;
     const currentQunatity=useSelector(deleteCartQuantityById(id));
     const isInCart=currentQunatity > 0
-
+    
 
     const handleAddItem=async ()=>{
 
@@ -31,9 +31,9 @@ const MenuItem = ({pizza}) => {
     }
 
     
-   
+  
   return (
-    <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+    <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg mb-8">
       <img src={image.filePath} alt={name} className="w-full h-64 object-cover" />
       <div className="p-5">
         <h2 className="text-xl font-semibold">{name}</h2>

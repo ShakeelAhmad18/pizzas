@@ -19,7 +19,7 @@ export default function Navbar() {
               <Link to="/" className="btn btn-ghost text-xl">Home</Link>
             </li>
             <li>
-              <Link to="/menu" className="btn btn-ghost text-xl">Menu</Link>
+              <Link to="/menu?category=pizza" className="btn btn-ghost text-xl">Menu</Link>
             </li>
             <li>
               <Link to="/services" className="btn btn-ghost text-xl">Services</Link>
@@ -73,7 +73,7 @@ export default function Navbar() {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
             <li>
-              <Link to="/profile" className="justify-between text-slate-900">
+              <Link to="/dashboard/profile" className="justify-between text-slate-900">
                 Profile
                 <span className="badge">New</span>
               </Link>

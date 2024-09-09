@@ -20,8 +20,8 @@ export default function Home() {
       </p>
       
       <div className="flex space-x-4">
-       <Link to='/menu'> <button className="bg-yellow-500 text-black py-2 px-4 rounded hover:text-white hover:bg-green-600">Order Now</button> </Link>
-       <Link to='/menu'> <button className="bg-gray-800 bg-opacity-70 py-2 px-4 rounded text-white  hover:bg-green-600">View Menu</button> </Link>
+       <Link to='/menu?category=pizza'> <button className="bg-yellow-500 text-black py-2 px-4 rounded hover:text-white hover:bg-green-600">Order Now</button> </Link>
+       <Link to='/menu?category=pizza'> <button className="bg-gray-800 bg-opacity-70 py-2 px-4 rounded text-white  hover:bg-green-600">View Menu</button> </Link>
       </div>
     </div>
   </div>
