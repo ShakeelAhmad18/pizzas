@@ -14,7 +14,7 @@ const Cart = () => {
   if (cart.length === 0) return <EmptyCart />;
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="bg-gray-100 min-h-screen py-16">
       <Navbar />
       <div className="container mx-auto py-6 px-4">
         <h1 className="text-2xl lg:text-3xl font-semibold mb-6 text-center">Your Basket</h1>

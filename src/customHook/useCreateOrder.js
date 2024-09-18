@@ -13,11 +13,10 @@ const useCreateOrder=()=>{
     const dispatch=useDispatch()
     const navigate = useNavigate()
 
-    const newOrder=async ({pizzaIds,address,phone,totalPrice})=>{
+    const newOrder=async ({items,address,phone,totalPrice,orderNo})=>{
         
-        console.log({pizzaIds,address,phone,totalPrice})
 
-        if(!Array.isArray(pizzaIds)){
+        if(!Array.isArray(items)){
           return  toast.error('pizza Ids are not array')
         }
 
@@ -29,11 +28,11 @@ const useCreateOrder=()=>{
 
        try{
           
-          const res=await axios.post('http://localhost:8000/api/order/createOrder',{pizzaIds,address,phone,totalPrice},{withCredentials:true})
+          const res=await axios.post('http://localhost:8000/api/order/createOrder',{items,address,phone,totalPrice,orderNo},{withCredentials:true})
           const data=res.data;
           getOrder(data._id)
           dispatch(clearCart())
-          navigate(`/order/${data._id}`)
+          navigate(`/order/${data.orderNo}`)
           
        }catch(error){
           toast.error(error.message)

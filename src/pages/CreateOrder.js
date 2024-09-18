@@ -1,9 +1,11 @@
-import {useState} from 'react'
+import {useState,useContext} from 'react'
 import Navbar from '../components/Navbar'
 import {useSelector} from 'react-redux'
 import { getCart, getTotalPrice } from '../redux/cartSlice'
 import useCreateOrder from '../customHook/useCreateOrder'
 import Spinner from '../components/Spinner'
+import { UserContext } from '../context/UserContext'
+import {BookingConfirmationEmail} from '../services/sendConfirmationEmail'
 
 const CreateOrder = () => {
 
@@ -13,31 +15,53 @@ const CreateOrder = () => {
         address:'',
         phone:'',
     })
-
+     const {authUser}=useContext(UserContext)
 
     const cart=useSelector(getCart)
     const totalPrice=useSelector(getTotalPrice);
+
+    const timestampPart = Date.now().toString().slice(-4); // Last 6 digits of the timestamp
+    const randomPart = Math.random().toString(36).substring(2,4).toUpperCase();
+    const orderNo= `ORD-${timestampPart}-${randomPart}`
+
+    console.log(cart)
+
+    const formData={
+      items:cart,
+      user_name:authUser.name,
+      user_email:authUser.email,
+      orderNo,
+      totalPrice
+    }
+
+    
 
     if(isLoading) return <Spinner/>
 
     const handlePlaceOrder=async (e)=>{
         e.preventDefault()
-        const id=cart.map(item=>item.pizzaId)
+       
 
         const newOrder={
-          pizzaIds:id,
+          items:cart.map((item)=>({
+            itemId:item.pizzaId,
+            quantity:item.quantity,
+            itemtotalprice:item.price * item.quantity
+          })),
+          orderNo,
           phone:input.phone,
           address:input.address,
-          totalPrice,
+          totalPrice
         }
 
-        NewOrder(newOrder)
-        setInput({});
+       NewOrder(newOrder)
+       BookingConfirmationEmail(formData)
+       setInput({});
 
     }
 
   return (
-    <div className='bg-gray-200 h-screen'>
+    <div className='bg-gray-200 h-screen py-9'>
         <Navbar/>
         <h2 className='flex py-3 px-6 text-xl font-semibold items-start mt-6'>Ready to order? Let's go</h2>
         <form className='mt-16' onSubmit={handlePlaceOrder}>

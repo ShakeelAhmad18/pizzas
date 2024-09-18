@@ -2,6 +2,9 @@ import React from 'react'
 import {deleteCartQuantityById} from '../redux/cartSlice'
 import {useDispatch,useSelector} from 'react-redux'
 import { addItems,deleteItem } from '../redux/cartSlice';
+import toast from 'react-hot-toast'
+import { MdOutlineShoppingBag } from "react-icons/md";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 const MenuItem = ({pizza,filter}) => {
     const dispatch=useDispatch()
@@ -23,11 +26,13 @@ const MenuItem = ({pizza,filter}) => {
             totalPrice:price * 1
            }
            dispatch(addItems(newItem))
+           toast.success('Item Added to cart')
     }
 
 
     const handleRemoveFromCart=async ()=>{
        dispatch(deleteItem(id))
+       toast.success('Item Remove to Cart')
     }
 
     
@@ -42,12 +47,15 @@ const MenuItem = ({pizza,filter}) => {
           <span className="text-lg font-bold">${price}</span>
           {!soldOut && (
             !isInCart ? (
-              <button className="bg-yellow-500 text-gray-900 px-3 py-2 rounded hover:bg-yellow-600" onClick={handleAddItem}>
-                Add to Cart
-              </button>
+              <button className="bg-yellow-500 text-gray-900 px-3 py-2 rounded hover:bg-yellow-600 flex items-center space-x-2" onClick={handleAddItem}>
+                <MdOutlineShoppingBag className="w-5 h-5" />
+                    <span>Add to cart</span>
+                        </button>
+
             ) : (
-              <button className="bg-yellow-500 text-gray-900 px-3 py-2 rounded hover:bg-yellow-600" onClick={handleRemoveFromCart}>
-                Remove from Cart
+              <button className="bg-yellow-500 text-gray-900 px-3 py-2 rounded hover:bg-yellow-600 flex items-center space-x-2" onClick={handleRemoveFromCart}>
+                <RiDeleteBin6Line className='h-5 w-5'/>
+                 Remove
               </button>
             )
           )}

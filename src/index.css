@@ -67,3 +67,19 @@ body{
 ::-webkit-scrollbar-thumb:hover{
   background: #242424;
 }
+
+/* Add this to your CSS file */
+@media (max-width: 768px) {
+  .flex-col {
+    flex-direction: column;
+  }
+  .grid-cols-1 {
+    grid-template-columns: 1fr;
+  }
+  .grid-cols-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .grid-cols-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}

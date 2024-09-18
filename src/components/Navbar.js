@@ -1,14 +1,17 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {getCart,getTotalPrice} from '../redux/cartSlice'
+import useSignout from '../customHook/useSignout'
 
 export default function Navbar() {
 
  const getcart= useSelector(getCart)
  const totalPrice=useSelector(getTotalPrice)
+ const {signout}=useSignout()
+
 
   return (
-    <div className="navbar bg-green-500 text-white">
+    <div className="navbar bg-green-500 text-white fixed top-0 left-0">
       <div className="flex-1">
         <Link to="/" className="btn btn-ghost text-xl">
           <span><img src="/logo.png" className="w-10 rounded-full h-10" alt="Logo" /></span>
@@ -78,7 +81,7 @@ export default function Navbar() {
                 <span className="badge">New</span>
               </Link>
             </li>
-            <li><Link to="/logout" className="text-slate-900">Logout</Link></li>
+            <li><button className="text-slate-900 cursor-pointer" onClick={signout}>Logout</button></li>
           </ul>
         </div>
       </div>
@@ -92,6 +95,7 @@ export default function Navbar() {
           <li><Link to="/" className="text-slate-900">Home</Link></li>
           <li><Link to="/menu" className="text-slate-900">Menu</Link></li>
           <li><Link to="/dashboard" className="text-slate-900">Dashboard</Link></li>
+          
         </ul>
       </div>
     </div>

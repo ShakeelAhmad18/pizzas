@@ -1,43 +1,56 @@
-import {useSearchParams,useNavigate,useLocation} from 'react-router-dom'
+import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 
+const Filter = () => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const activeFilter = searchParams.get('category') ?? 'pizza';
+  const [isOpen, setIsOpen] = useState(false); // For mobile view
 
-const Filter=()=>{
+  const handleFilter = (filter) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('category', filter);
+    navigate(`${location.pathname}?${params.toString()}`, { replace: true });
+  };
 
-   const [searchParams]=useSearchParams()
-   const navigate= useNavigate();
-   const location=useLocation()
-   const activeFilter=searchParams.get('category') ?? 'pizza'
+  return (
+    <div className="lg:w-64 w-full bg-gray-800 p-4 text-white font-serif">
+      {/* Toggle button for mobile view */}
+      <button
+        className="lg:hidden mb-4 bg-yellow-500 px-3 py-2"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        Categories
+      </button>
 
-   const handleFilter=(filter)=>{
-      const params=new URLSearchParams(searchParams);
-       params.set('category',filter)
-      navigate(`${location.pathname}?${params.toString()}`,{replace:true})
-   }
+      {/* Filter options */}
+      <div className={`lg:block ${isOpen ? 'block' : 'hidden'}`}>
+        <Button handleFilter={handleFilter} activeFilter={activeFilter} filter="pizza">
+          Pizzas
+        </Button>
+        <Button handleFilter={handleFilter} activeFilter={activeFilter} filter="drink">
+          Drinks
+        </Button>
+        <Button handleFilter={handleFilter} activeFilter={activeFilter} filter="burger">
+          Burgers
+        </Button>
+      </div>
+    </div>
+  );
+};
 
-    return(
-        <div className="border border-gray-500 flex">
-            <Button handleFilter={handleFilter} activeFilter={activeFilter} filter='pizza'>
-                Pizzas
-             </Button>
-             <Button  handleFilter={handleFilter} activeFilter={activeFilter} filter='drink'>
-                Drinks
-             </Button>
-             <Button  handleFilter={handleFilter} activeFilter={activeFilter} filter='burger'>
-                Burgers
-             </Button>
-        </div>
-    )
+function Button({ handleFilter, children, activeFilter, filter }) {
+  return (
+    <button
+      className={`block w-full text-left px-5 py-2 mt-2 hover:bg-gray-700 ${
+        filter === activeFilter ? 'bg-gray-600' : 'bg-gray-800'
+      }`}
+      onClick={() => handleFilter(filter)}
+    >
+      {children}
+    </button>
+  );
 }
 
 export default Filter;
-
-
-function Button({handleFilter,children,activeFilter,filter}){
-   return(
-
-    <button  className={`px-5 py-2 hover:bg-gray-900 hover:text-yellow-500 text-white ${filter === activeFilter ? 'bg-slate-600'  : ''} bg-yellow-300 text-slate-900`} onClick={()=>handleFilter(filter)}>
-          {children}
-    </button>
-    
-   )
-}

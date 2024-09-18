@@ -16,8 +16,12 @@ export function formatDate(datestr){
     }).format(new Date(datestr))
 }
 
-export function calMinutesLeft(datestr){
-    const d1=new Date().getTime();
-    const d2=new Date(datestr).getTime();
-    return Math.round(d1 - d2)/60000;
-}
+export function calMinutesLeft(datestr) {
+    if (!datestr) return 0; // If datestr is undefined or invalid
+    const d1 = new Date().getTime(); // Current time
+    const d2 = new Date(datestr).getTime(); // Order created time
+  
+    const differenceInMilliseconds = d2 + 30 * 60000 - d1; // 30 minutes countdown
+    return Math.round(differenceInMilliseconds / 60000); // Return the difference in minutes
+  }
+  
