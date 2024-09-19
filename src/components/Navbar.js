@@ -2,12 +2,20 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {getCart,getTotalPrice} from '../redux/cartSlice'
 import useSignout from '../customHook/useSignout'
+import {useDispatch} from 'react-redux'
+import {clearCart} from '../redux/cartSlice'
 
 export default function Navbar() {
-
+const dispatch=useDispatch()
  const getcart= useSelector(getCart)
  const totalPrice=useSelector(getTotalPrice)
  const {signout}=useSignout()
+
+ const handleClearCart=()=>{
+
+  dispatch(clearCart())
+
+ }
 
 
   return (
@@ -58,8 +66,9 @@ export default function Navbar() {
             <div className="card-body">
               <span className="text-lg font-bold text-slate-800">{getcart.length} Items</span>
               <span className="text-info">Subtotal: ${totalPrice}</span>
-              <div className="card-actions">
-               <Link to='/cart'> <button className="btn flex justify-center btn-primary btn-block items-center">View cart</button> </Link>
+              <div className="card-actions flex items-center space-x-1">
+               <Link to='/cart'> <button className="py-2 px-3 rounded-md hover:bg-yellow-500 flex items-center text-slate-900 bg-green-400">View cart</button> </Link>
+                <button className="py-2 px-3 flex rounded-md hover:bg-red-300 hover:text-green-500 items-center text-slate-900 bg-green-400" onClick={handleClearCart}>Clear cart</button>
               </div>
             </div>
           </div>
