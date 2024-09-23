@@ -17,7 +17,7 @@ const Cart = () => {
     <div className="bg-gray-100 min-h-screen py-16">
       <Navbar />
       <div className="container mx-auto py-6 px-4">
-        <h1 className="text-2xl lg:text-3xl font-semibold mb-6 text-center">Your Basket</h1>
+        <h1 className="text-2xl lg:text-3xl font-semibold mb-6 text-center items-center ">Your Basket</h1>
 
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
           {/* Cart Items */}
@@ -47,12 +47,12 @@ const Cart = () => {
             {/* Additional Information */}
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h2 className="text-lg lg:text-xl font-semibold mb-4 text-center">Delivery Information</h2>
-              <p className="text-gray-600 text-sm lg:text-base">Standard Delivery is 2-4 working days.</p>
+              <p className="text-gray-600 text-sm lg:text-base">Standard Delivery in 30 min.</p>
               <p className="text-gray-600 text-sm lg:text-base mt-2">
                 Need it faster? You can upgrade to Next Day Delivery during Checkout for Next Working Day delivery (Order before 10pm).
               </p>
               <p className="text-gray-600 text-sm lg:text-base mt-2">
-                FREE returns to any of our stores.
+                FREE Delivery with in 3km
               </p>
             </div>
           </div>

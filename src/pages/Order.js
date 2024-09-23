@@ -6,6 +6,7 @@ import {useSelector} from 'react-redux'
 import { getorder } from '../redux/orderSlice';
 import Spinner from '../components/Spinner'
 import Navbar from '../components/Navbar'
+import {Link} from 'react-router-dom'
 
 /*const order=[
   {
@@ -70,7 +71,7 @@ const Order = () => {
             <p><strong>Address:</strong>{address}</p>
             <p><strong>Phone:</strong>{phone}</p>
             <p><strong>Email:</strong>{authUser.email}</p>
-            <button className="btn btn-primary mt-4">Track Your Order</button>
+           <Link to='/dashboard/orders'> <button className="btn btn-primary mt-4">Check Orders</button> </Link>
           </div>
 
           <div className="bg-base-100 shadow rounded-lg p-4 md:w-2/5">

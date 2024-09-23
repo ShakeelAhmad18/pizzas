@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import MenuItem from '../components/MenuItem';
 import Filter from '../components/Filter';
 import { useSearchParams } from 'react-router-dom';
+import Footer from '../components/Footer'
 
 export default function Menu() {
   const [searchParams] = useSearchParams();
@@ -38,12 +39,12 @@ export default function Menu() {
           </p>
           <p className="text-gray-400">there live the blind texts.</p>
         </div>
+
         <div className="flex flex-col lg:flex-row gap-6 mt-10 mx-10">
           {/* Filter Sidebar on the left */}
           <div className="lg:w-64 w-full">
             <Filter />
           </div>
-
           {/* Menu Items on the right */}
           <div className="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {displayItems.map((item) => (
@@ -52,6 +53,7 @@ export default function Menu() {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 }

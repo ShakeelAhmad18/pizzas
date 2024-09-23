@@ -9,6 +9,8 @@ import {
 } from '@heroicons/react/24/solid';
 import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/solid';
 import useSignout from '../customHook/useSignout';
+import Footer from '../components/Footer'
+
 
 export default function Sidebar() {
   const location = useLocation();
@@ -18,6 +20,7 @@ export default function Sidebar() {
   const { signout } = useSignout();
 
   return (
+    <>
     <div className="flex h-screen bg-slate-900">
       {/* Sidebar */}
       <div
@@ -91,6 +94,9 @@ export default function Sidebar() {
           <Outlet />
         </div>
       </div>
+     
     </div>
+    <Footer/>
+    </>
   );
 }

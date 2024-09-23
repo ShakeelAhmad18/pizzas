@@ -7,7 +7,7 @@ const Filter = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const activeFilter = searchParams.get('category') ?? 'pizza';
-  const [isOpen, setIsOpen] = useState(false); // For mobile view
+  const [isOpen, setIsOpen] = useState(false); 
 
   const handleFilter = (filter) => {
     const params = new URLSearchParams(searchParams);
@@ -16,8 +16,7 @@ const Filter = () => {
   };
 
   return (
-    <div className="lg:w-64 w-full bg-gray-800 p-4 text-white font-serif lg:sticky lg:h-screen">
-      {/* Toggle button for mobile view */}
+    <div className="lg:w-64 w-full bg-gray-800 p-4 text-white font-serif">
       <button
         className="lg:hidden mb-4 bg-yellow-500 px-3 py-2"
         onClick={() => setIsOpen(!isOpen)}
@@ -36,29 +35,16 @@ const Filter = () => {
         <Button handleFilter={handleFilter} activeFilter={activeFilter} filter="burger">
           Burgers
         </Button>
-        <Button handleFilter={handleFilter} activeFilter={activeFilter} filter="sandwich">
-          Sandwiches
+        <Button handleFilter={handleFilter} activeFilter={activeFilter} filter="burger">
+          SandWhichs
         </Button>
-        <Button handleFilter={handleFilter} activeFilter={activeFilter} filter="daily-deals">
+        <Button handleFilter={handleFilter} activeFilter={activeFilter} filter="burger">
           Daily Deals
-        </Button>
-        <Button handleFilter={handleFilter} activeFilter={activeFilter} filter="rice">
-          Rice
-        </Button>
-        <Button handleFilter={handleFilter} activeFilter={activeFilter} filter="coffee">
-          Coffee
-        </Button>
-        <Button handleFilter={handleFilter} activeFilter={activeFilter} filter="soup">
-          Soup
-        </Button>
-        <Button handleFilter={handleFilter} activeFilter={activeFilter} filter="special-offer">
-          Special Offer
         </Button>
       </div>
     </div>
   );
 };
-
 
 function Button({ handleFilter, children, activeFilter, filter }) {
   return (

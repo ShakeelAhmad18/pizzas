@@ -1,9 +1,11 @@
-
-
-import React from "react";
+import {useEffect} from "react";
 import OrderCard from "../components/OrderCard";
+//import axios from "axios"
 
-const order = {
+import {useDispatch,useSelector} from 'react-redux'
+import {getAllOrders,getALLOrder} from '../redux/orderSlice'
+
+/*const order = [{
   _id: "66e73a668c6d45682d41fcc2",
   userId: "66e70f84ef783c048e111848",
   items: [
@@ -39,21 +41,48 @@ const order = {
       quantity: 3,
       itemtotalprice: 150,
     },
+    {
+      _id: "66e73a668c6d45682d41fcc4",
+      itemId: {
+        _id: "66c83850b8df0a42cd9670f5",
+        image: {
+          fileName: "Hawaiian Pizza.png",
+          filePath:
+            "https://res.cloudinary.com/dqf992hcs/image/upload/v1724397648/Menu%20Pizza/ms0ossco6nprnuy1oqta.png",
+          fileSize: "3.2 MB",
+        },
+        name: "Hawaiian Pizza",
+        price: "50",
+      },
+      quantity: 3,
+      itemtotalprice: 150,
+    },
   ],
-  orderNo: "ORD-6152-9B",
-  phone: "03358500384",
-  address: "township lahore",
-  totalPrice: 417,
-  createdAt: "2024-09-15T19:49:58.117Z",
-};
-
+}]*/
+ 
 const Orders = () => {
+   //const [ordersData,setOrdersData]=useState([])
+
+    const dispatch=useDispatch()
+    const order=useSelector(getALLOrder)
+
+   useEffect(()=>{
+  
+      dispatch(getAllOrders())
+
+   },[dispatch])
+  
   return (
-    <div className="overflow-auto">
+    <div className="h-screen flex flex-col">
       <h2 className="text-white py-7">Your Orders</h2>
-      <OrderCard order={order} />
+      <div className="flex-1 overflow-y-auto"> 
+        <OrderCard orders={order} />
+      </div>
     </div>
   );
 };
 
 export default Orders;
+
+
+

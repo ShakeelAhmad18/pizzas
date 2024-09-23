@@ -1,7 +1,13 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import './Services.css'; 
+import Footer from '../components/Footer'
+
 export default function Services() {
+
+    const from='10';
+    const to='2';
+
     document.title = 'Services';
     const services = [
         {
@@ -44,6 +50,7 @@ export default function Services() {
                     ))}
                 </div>
             </div>
+            <Footer/>
         </>
     );
 }

@@ -2,7 +2,6 @@ import Home from "./pages/Home";
 import { BrowserRouter as Router,Route,Routes, Navigate } from "react-router-dom";
 import Menu from "./pages/Menu";
 import Dashboard from "./pages/Dashboard";
-import Footer from "./components/Footer";
 import Services from "./pages/Services";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -49,7 +48,6 @@ function App() {
         </Route>
          <Route path="/createorder" element={!authUser ? <Navigate to='/login'/> : <CreateOrder/>}/>
        </Routes>
-       <Footer/>
       </Router>
       </QueryClientProvider>
       <Toaster position="top-center"

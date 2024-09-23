@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import SearchOrder from '../components/SearchOrder'
+import Footer from '../components/Footer'
 
 export default function Home() {
   document.title = 'Home';
@@ -11,7 +12,6 @@ export default function Home() {
     <Navbar/>
    <div className="bg-cover bg-center h-screen font-serif py-5 bg-green-200">
    <div className="flex flex-col h-full items-center justify-center text-center text-white px-6 py-10">
-
      <h1 className="text-3xl font-bold mb-4 text-teal-700">WE COOKED YOUR DESIRED PIZZA RECIPE</h1>
      <p className="mb-6 text-sm text-teal-700">
        A small river named Duden flows by their place and supplies it with the necessary regelialia.
@@ -25,6 +25,7 @@ export default function Home() {
      </div>
    </div>
  </div>
+  <Footer/>
  </>
   );
 }

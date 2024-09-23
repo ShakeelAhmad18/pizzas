@@ -6,6 +6,7 @@ import useCreateOrder from '../customHook/useCreateOrder'
 import Spinner from '../components/Spinner'
 import { UserContext } from '../context/UserContext'
 import {BookingConfirmationEmail} from '../services/sendConfirmationEmail'
+import Footer from '../components/Footer'
 
 const CreateOrder = () => {
 
@@ -61,6 +62,7 @@ const CreateOrder = () => {
     }
 
   return (
+    <>
     <div className='bg-gray-200 h-screen py-9'>
         <Navbar/>
         <h2 className='flex py-3 px-6 text-xl font-semibold items-start mt-6'>Ready to order? Let's go</h2>
@@ -89,6 +91,8 @@ const CreateOrder = () => {
                 </div>
            </form>
     </div>
+    <Footer/>
+    </>
   )
 }
 
