@@ -74,8 +74,8 @@ const Orders = () => {
   
   return (
     <div className="h-screen flex flex-col">
-      <h2 className="text-white py-7">Your Orders</h2>
-      <div className="flex-1 overflow-y-auto"> 
+      <h2 className="text-white py-7 text-3xl font-bold font-serif mr-16">Your Orders</h2>
+      <div className="flex-1 mr-16"> 
         <OrderCard orders={order} />
       </div>
     </div>

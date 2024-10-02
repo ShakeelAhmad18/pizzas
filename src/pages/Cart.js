@@ -16,9 +16,8 @@ const Cart = () => {
   return (
     <div className="bg-gray-100 min-h-screen py-16">
       <Navbar />
-      <div className="container mx-auto py-6 px-4">
-        <h1 className="text-2xl lg:text-3xl font-semibold mb-6 text-center items-center ">Your Basket</h1>
-
+      <h1 className="text-2xl lg:text-3xl font-semibold mb-6 text-center items-center mt-9">Your Basket</h1>
+      <div className="container flex mx-auto py-6 px-4">
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
           {/* Cart Items */}
           <div className="flex-1 bg-white p-6 rounded-lg shadow-md">

@@ -10,6 +10,8 @@ import {
 import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/solid';
 import useSignout from '../customHook/useSignout';
 import Footer from '../components/Footer'
+import { GrDeliver } from "react-icons/gr";
+
 
 
 export default function Sidebar() {
@@ -87,9 +89,15 @@ export default function Sidebar() {
         {/* Main Content Area */}
         <div>
           {isDashboard && (
+            <div className="flex flex-col">
             <h1 className="flex text-2xl font-bold text-white items-start font-serif mt-28 ml-24">
               👏 Welcome! {authUser.name}
             </h1>
+            <div className="py-9 px-9 text-white font-bold bg-orange-400 w-40 mt-16 items-center ml-24">
+              <span className=" flex items-center justify-center h-12 rounded-xl font-bold bg-orange-300"><GrDeliver/></span>
+              Total Orders:{6}
+            </div>
+            </div>
           )}
           <Outlet />
         </div>

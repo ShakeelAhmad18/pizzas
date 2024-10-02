@@ -35,11 +35,17 @@ const Filter = () => {
         <Button handleFilter={handleFilter} activeFilter={activeFilter} filter="burger">
           Burgers
         </Button>
-        <Button handleFilter={handleFilter} activeFilter={activeFilter} filter="burger">
+        <Button handleFilter={handleFilter} activeFilter={activeFilter} filter="SandWhichs">
           SandWhichs
         </Button>
-        <Button handleFilter={handleFilter} activeFilter={activeFilter} filter="burger">
+        <Button handleFilter={handleFilter} activeFilter={activeFilter} filter="deals">
           Daily Deals
+        </Button>
+        <Button handleFilter={handleFilter} activeFilter={activeFilter} filter="rice">
+          Rice
+        </Button>
+        <Button handleFilter={handleFilter} activeFilter={activeFilter} filter="coffee">
+          Coffee
         </Button>
       </div>
     </div>

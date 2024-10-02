@@ -17,7 +17,7 @@ export function formatDate(datestr){
 }
 
 export function calMinutesLeft(datestr) {
-    if (!datestr) return 0; // If datestr is undefined or invalid
+    if (!datestr) return 0; 
     const d1 = new Date().getTime(); // Current time
     const d2 = new Date(datestr).getTime(); // Order created time
   

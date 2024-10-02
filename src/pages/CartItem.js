@@ -7,9 +7,6 @@ import DeleteCart from '../components/DeleteCart';
 const CartItem = ({item}) => {
     const {pizzaId, name, quantity, totalPrice}=item;
 
-    
-    
-    
   return (
     <div>
         <li className="sm:flex sm:items-center sm:justify-between space-x-5 py-2 font-semibold ">

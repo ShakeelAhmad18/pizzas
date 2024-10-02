@@ -131,3 +131,10 @@ body {
   border: 1px solid #ccc; 
   padding: 10px;
 }
+
+
+/* Tailwind CSS styles in your main CSS file */
+.table-container {
+  max-height: 490px; /* You can adjust this height as needed */
+  overflow-y: auto; /* This will allow vertical scrolling if necessary */
+}
