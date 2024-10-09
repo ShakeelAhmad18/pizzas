@@ -1,10 +1,19 @@
 import React from 'react';
 import {useDispatch} from 'react-redux'
 import {increasedItemQuantity,decreaseItemQuantity} from '../redux/cartSlice'
+import toast from 'react-hot-toast'
+import { deleteItem } from '../redux/cartSlice';
+import { RiDeleteBin6Line } from 'react-icons/ri';
+
 
 const Cartitem = ({ item }) => {
   const dispatch=useDispatch()
-  const { name,quantity, image, price,ingredients,pizzaId} = item;
+  const {name,quantity, image, price,ingredients,pizzaId} = item;
+  
+  const handleRemoveFromCart = async () => {
+    dispatch(deleteItem(pizzaId));
+    toast.success('Item removed from cart');
+  };
 
   const incresedQunatity=()=>{
      dispatch(increasedItemQuantity(pizzaId))
@@ -43,11 +52,9 @@ const Cartitem = ({ item }) => {
       </div>
       <div className="flex flex-col items-start lg:items-end mt-4 lg:mt-0">
         <span className="text-lg font-bold">${(price * quantity).toFixed(2)}</span>
-        <button
-          className="text-red-500 mt-2 hover:text-purple-600"
-        >
-          Remove
-        </button>
+       <button onClick={handleRemoveFromCart}>
+       <RiDeleteBin6Line  className='w-10 h-8 py-1 px-1  text-red-500 rounded-md hover:text-red-700'/>
+       </button>
       </div>
     </div>
   );

@@ -71,11 +71,12 @@ const Orders = () => {
       dispatch(getAllOrders())
 
    },[dispatch])
+
   
   return (
     <div className="h-screen flex flex-col">
       <h2 className="text-white py-7 text-3xl font-bold font-serif mr-16">Your Orders</h2>
-      <div className="flex-1 mr-16"> 
+      <div className="flex-1 pl-10 pr-6 lg:mr-32"> 
         <OrderCard orders={order} />
       </div>
     </div>

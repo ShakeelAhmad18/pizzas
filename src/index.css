@@ -138,3 +138,104 @@ body {
   max-height: 490px; /* You can adjust this height as needed */
   overflow-y: auto; /* This will allow vertical scrolling if necessary */
 }
+
+/* Ensure the Navbar is fixed at the top */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000; /* So it stays above other elements */
+}
+
+/* Adjust the Filter */
+.filter-sidebar {
+  position: sticky;
+  top: 70px; /* Adjust based on Navbar height */
+  z-index: 500; /* Make sure it stays below the Navbar but above the content */
+  height: auto; /* Make sure it's not too tall for mobile view */
+  overflow-y: auto;
+}
+
+/* Menu Item Cards */
+.menu-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: #1c1f24; /* Dark background for contrast */
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Menu Item Images */
+.menu-item img {
+  width: 100%;
+  height: auto; /* Ensure the images resize properly */
+  border-radius: 8px 8px 0 0;
+}
+
+/* Button Styling */
+.menu-item button {
+  background-color: #ffc107; /* Highlighted yellow button */
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  width: auto; /* Ensure button is full width */
+}
+
+/* Make sure the images don't overflow */
+.menu-item img {
+  object-fit: cover;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Fallback for missing images */
+.menu-item img {
+  background-color: #2a2c32; /* Fallback color if the image doesn't load */
+  display: block;
+  width: 100%;
+  height: 150px; /* Placeholder height for missing images */
+}
+
+/* Text Adjustments */
+.menu-item h3 {
+  font-size: 1rem; /* Reduce font size for mobile */
+  margin: 10px 0;
+}
+
+.menu-item p {
+  font-size: 0.875rem; /* Reduce paragraph size */
+  color: #c4c4c4; /* Lighter text color for better contrast */
+}
+
+/* Apply styles for mobile view */
+@media (max-width: 640px) {
+  /* Ensure the filter does not overlap */
+  .filter-sidebar {
+    position: relative;
+    margin-bottom: 20px; /* Adds space below the filter */
+  }
+
+  /* Fix the layout for the menu items */
+  .menu-items {
+    margin-top: 20px; /* Adds a gap between the filter and the first menu item */
+  }
+}
+
+/* General styles for larger screens */
+@media (min-width: 640px) {
+  .filter-sidebar {
+    position: sticky; /* Allows it to remain fixed on larger screens */
+    top: 16px; /* Set a distance from the top */
+    margin-right: 20px; /* Space between filter and content */
+  }
+
+  .menu-items {
+    margin-left: 20px; /* Extra space on the left for menu items */
+  }
+}

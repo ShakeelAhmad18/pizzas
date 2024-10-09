@@ -5,12 +5,13 @@ import axios from 'axios';
 import OrderItems from '../pages/OrderItems';
 import Spinner from '../components/Spinner';
 import { useState, useEffect } from 'react';
+import Footer from '../components/Footer';
 import toast from 'react-hot-toast';
 
 const TrackOrder = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [tracking, setTracking] = useState(null);
-  const [status, setStatus] = useState('Pending');
+  const [tracking, setTracking] = useState([]);
+  const [status, setStatus] = useState('Pending'); // Initial status is 'Pending'
   const { id: orderNo } = useParams();
 
   useEffect(() => {
@@ -29,32 +30,41 @@ const TrackOrder = () => {
     fetchData();
   }, [orderNo]);
 
-  //calculate minleft
+  const { createdAt } = tracking;
+
+  // Immediate status check on component load
   useEffect(() => {
-    if (tracking?.createdAt) {
+    if (createdAt) {
+      const minutesLeft = calMinutesLeft(createdAt); // Calculate minutes left immediately
+
+      if (minutesLeft <= 0) {
+        setStatus('Completed'); // If 30 minutes have passed, set status to 'Completed' immediately
+      } else {
+        setStatus('Pending'); // Otherwise, status remains 'Pending'
+      }
+
+      // Set an interval to keep updating the status every minute
       const intervalId = setInterval(() => {
-        const minutesLeft = calMinutesLeft(tracking.createdAt);
-        const minutesPassed = 30 - minutesLeft; // Minutes since the order was placed
-  
-        console.log('Minutes Left:', minutesLeft); // Debugging output
-        console.log('Minutes Passed:', minutesPassed); // Debugging output
-  
-        // Check if 30 minutes have passed
-        if (minutesPassed >= 30 || minutesLeft <= 0) {
+        const updatedMinutesLeft = calMinutesLeft(createdAt); // Recalculate minutes left every minute
+
+        // Update status to 'Completed' when time is up
+        if (updatedMinutesLeft <= 0) {
           setStatus('Completed');
-          clearInterval(intervalId); // Stop checking once it's completed
+          clearInterval(intervalId); // Stop the interval once status is 'Completed'
         }
       }, 1000 * 60); // Check every minute
-  
-      return () => clearInterval(intervalId); // Cleanup on component unmount
+
+      return () => clearInterval(intervalId); // Cleanup interval on unmount
     }
-  }, [tracking]);
-  
-  
+  }, [createdAt]); // This will run whenever `createdAt` changes (i.e., when tracking data is loaded)
+
+  if (tracking.length === 0) {
+    return <p>Order Not Found</p>;
+  }
 
   if (isLoading) return <Spinner />;
 
-  if (!tracking) return <p>No tracking data found for this order.</p>;
+  const minutesLeft = calMinutesLeft(createdAt); // Calculate minutes left for display
 
   return (
     <>
@@ -72,11 +82,11 @@ const TrackOrder = () => {
         <div className="flex items-center justify-between gap-2 py-6 px-4 bg-stone-300">
           <p className="font-medium">
             {status === 'Pending'
-              ? `Only ${Math.max(30 - Math.round(calMinutesLeft(tracking?.createdAt)), 0)} minutes left`
+              ? `Only ${minutesLeft > 0 ? minutesLeft : 0} minutes left`
               : 'Order has arrived'}
           </p>
           <p className="text-xs text-stone-500">
-            (Estimated Delivery: {formatDate(tracking?.createdAt)})
+            (Estimated Delivery: {formatDate(new Date(new Date(createdAt).getTime() + 30 * 60 * 1000))}) {/* Add 30 minutes to createdAt */}
           </p>
         </div>
 
@@ -97,6 +107,7 @@ const TrackOrder = () => {
           </p>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

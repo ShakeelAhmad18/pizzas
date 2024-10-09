@@ -1,49 +1,39 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import {getCart,getTotalPrice} from '../redux/cartSlice'
-import useSignout from '../customHook/useSignout'
-import {useDispatch} from 'react-redux'
-import {clearCart} from '../redux/cartSlice'
+import { getCart, getTotalPrice } from '../redux/cartSlice';
+import useSignout from '../customHook/useSignout';
+import { useDispatch } from 'react-redux';
+import { clearCart } from '../redux/cartSlice';
 
 export default function Navbar() {
-const dispatch=useDispatch()
- const getcart= useSelector(getCart)
- const totalPrice=useSelector(getTotalPrice)
- const {signout}=useSignout()
+  const dispatch = useDispatch();
+  const getcart = useSelector(getCart);
+  const totalPrice = useSelector(getTotalPrice);
+  const { signout } = useSignout();
 
- const handleClearCart=()=>{
-
-  dispatch(clearCart())
-
- }
-
+  const handleClearCart = () => {
+    dispatch(clearCart());
+  };
 
   return (
-    <div className="navbar bg-green-500 text-white fixed top-0 left-0">
+    <div className="navbar bg-gradient-to-r from-green-500 to-green-700 text-white fixed top-0 left-0 shadow-lg">
       <div className="flex-1">
-        <Link to="/" className="btn btn-ghost text-xl">
+        <Link to="/" className="btn btn-ghost text-xl flex items-center">
           <span><img src="/logo.png" className="w-10 rounded-full h-10" alt="Logo" /></span>
+          <span className="ml-2 font-bold text-lg">Pizza Delicious</span>
         </Link>
         <div className="hidden md:flex">
           <ul className="flex items-center justify-between gap-3 ml-4">
-            <li>
-              <Link to="/" className="btn btn-ghost text-xl">Home</Link>
-            </li>
-            <li>
-              <Link to="/menu?category=pizza" className="btn btn-ghost text-xl">Menu</Link>
-            </li>
-            <li>
-              <Link to="/services" className="btn btn-ghost text-xl">Services</Link>
-            </li>
-            <li>
-              <Link to="/dashboard" className="btn btn-ghost text-xl">Dashboard</Link>
-            </li>
+            <li><Link to="/" className="btn btn-ghost text-lg hover:underline">Home</Link></li>
+            <li><Link to="/menu?category=pizza" className="btn btn-ghost text-lg hover:underline">Menu</Link></li>
+            <li><Link to="/services" className="btn btn-ghost text-lg hover:underline">Services</Link></li>
+            <li><Link to="/dashboard" className="btn btn-ghost text-lg hover:underline">Dashboard</Link></li>
           </ul>
         </div>
       </div>
       <div className="flex-none">
         <div className="dropdown dropdown-end">
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle relative">
             <div className="indicator">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -62,12 +52,16 @@ const dispatch=useDispatch()
           </div>
           <div
             tabIndex={0}
-            className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow">
+            className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow-md">
             <div className="card-body">
               <span className="text-lg font-bold text-slate-800">{getcart.length} Items</span>
               <span className="text-info">Subtotal: ${totalPrice}</span>
               <div className="card-actions flex items-center space-x-1">
-               <Link to='/cart'> <button className="py-2 px-2 rounded-md hover:bg-yellow-500 flex items-center text-slate-900 bg-green-400">View cart</button> </Link>
+                <Link to='/cart'>
+                  <button className="py-2 px-2 rounded-md hover:bg-yellow-500 flex items-center text-slate-900 bg-green-400">
+                    View cart
+                  </button>
+                </Link>
                 <button className="py-2 px-2 flex rounded-md hover:bg-red-300 hover:text-green-500 items-center text-slate-900 bg-green-400" onClick={handleClearCart}>Clear cart</button>
               </div>
             </div>
@@ -104,7 +98,6 @@ const dispatch=useDispatch()
           <li><Link to="/" className="text-slate-900">Home</Link></li>
           <li><Link to="/menu" className="text-slate-900">Menu</Link></li>
           <li><Link to="/dashboard" className="text-slate-900">Dashboard</Link></li>
-          
         </ul>
       </div>
     </div>
