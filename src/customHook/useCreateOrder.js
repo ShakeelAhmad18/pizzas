@@ -32,7 +32,7 @@ const useCreateOrder=()=>{
           const data=res.data;
           getOrder(data._id)
           dispatch(clearCart())
-          navigate(`/order/${data.orderNo}`)
+          navigate(`/dashboard/trackorder/${data.orderNo}`)
           
        }catch(error){
           toast.error(error.message)

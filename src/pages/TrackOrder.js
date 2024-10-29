@@ -1,18 +1,21 @@
 import { calMinutesLeft, formatDate, formatCurrency } from '../utils/helpers';
-import Navbar from '../components/Navbar';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import OrderItems from '../pages/OrderItems';
+//import OrderItems from '../pages/OrderItems';
 import Spinner from '../components/Spinner';
 import { useState, useEffect } from 'react';
-import Footer from '../components/Footer';
 import toast from 'react-hot-toast';
+import {Link} from 'react-router-dom'
 
 const TrackOrder = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [tracking, setTracking] = useState([]);
   const [status, setStatus] = useState('Pending'); // Initial status is 'Pending'
   const { id: orderNo } = useParams();
+
+  useEffect(()=>{
+    window.scrollTo(0,0);
+   },[])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,49 +69,111 @@ const TrackOrder = () => {
 
   const minutesLeft = calMinutesLeft(createdAt); // Calculate minutes left for display
 
+  const {items}=tracking
+
+
   return (
-    <>
-      <Navbar />
-      <div className="space-y-8 px-4 bg-slate-400 h-screen py-20 mb-14">
-        <div className="flex items-center justify-between flex-wrap">
-          <h2 className="text-xl font-semibold">Order # {orderNo}</h2>
-          <div className="space-x-2">
-            <span className="text-xs rounded-full bg-green-500 px-3 py-1 font-semibold tracking-wide uppercase text-red-50">
-              {status}
-            </span>
+    <div className="col-xl-9 col-lg-8 wow fadeInUp w-full h-[550px] overflow-y-auto" data-wow-duration="1s">
+  <div className="dashboard_content">
+    <div className="dashboard_body">
+      <h3>invoice</h3>
+      <div className="invoice">
+        <Link className="go_back" to="/dashboard/orders"><i className="fas fa-long-arrow-alt-left" /> go back</Link>
+        <div className="track_order">
+          <ul>
+            <li className={`${status === 'Pending' ? 'active' : '' || status === 'Completed' ? 'active' : ''}`}>order pending</li>
+            <li className={`${status === 'Completed' ? 'active' : ''}`}>order accept</li>
+            <li className={`${status === 'Completed' ? 'active' : ''}`}>order process</li>
+            <li className={`${status === 'Completed' ? 'active' : ''}`}>on the way</li>
+            <li className={`${status === 'Completed' ? 'active' : ''}`}>Completed</li>
+          </ul>
+        </div>
+        <div className="invoice_header">
+          <div className="header_address">
+            <h4>invoice to</h4>
+            <p>{tracking.address}</p>
+            <p>{tracking.phone}</p>
+          </div>
+          <div className="header_address">
+            <p><b>Status: </b><span>{status}</span></p>
+            <p><b>Order ID:</b> <span>{tracking.orderNo}</span></p>
+            <p><b>date:</b> <span>{formatDate(createdAt)}</span></p>
           </div>
         </div>
-
-        <div className="flex items-center justify-between gap-2 py-6 px-4 bg-stone-300">
-          <p className="font-medium">
-            {status === 'Pending'
-              ? `Only ${minutesLeft > 0 ? minutesLeft : 0} minutes left`
-              : 'Order has arrived'}
-          </p>
-          <p className="text-xs text-stone-500">
-            (Estimated Delivery: {formatDate(new Date(new Date(createdAt).getTime() + 30 * 60 * 1000))}) {/* Add 30 minutes to createdAt */}
-          </p>
+        <div className="invoice_body">
+          <div className="table-responsive">
+            <table className="table table-striped">
+              <tbody>
+                <tr className="border_none">
+                  <th className="sl_no">SL</th>
+                  <th className="package">item description</th>
+                  <th className="price">Price</th>
+                  <th className="qnty">Quantity</th>
+                  <th className="total">Total</th>
+                </tr>
+                {items.map((item,index)=>(<tr key={index}>
+                  <td className="sl_no">0{index + 1}</td>
+                  <td className="package">
+                    <p>{item.itemId.name}</p>
+                    <span className="size">{item.size}</span>
+                    <span className="coca_cola">{item.flavour}</span>
+                  </td>
+                  <td className="price">
+                    <b>${item.itemtotalprice}</b>
+                  </td>
+                  <td className="qnty">
+                    <b>{item.quantity}</b>
+                  </td>
+                  <td className="total">
+                    <b>${item.quantity * item.itemtotalprice}</b>
+                  </td>
+                </tr>))}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td className="package" colSpan={3}>
+                    <b>sub total</b>
+                  </td>
+                  <td className="qnty">
+                    <b>-</b>
+                  </td>
+                  <td className="total">
+                    <b>${tracking.totalPrice}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="package coast" colSpan={3}>
+                    <b>(+) Shipping Cost</b>
+                  </td>
+                  <td className="qnty">
+                    <b />
+                  </td>
+                  <td className="total coast">
+                    <b>$00.00</b>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="package" colSpan={3}>
+                    <b>Total Paid</b>
+                  </td>
+                  <td className="qnty">
+                    <b />
+                  </td>
+                  <td className="total">
+                    <b>${tracking.totalPrice}</b>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
         </div>
-
-        <ul className="divide-y divide-stone-300 border-b border-t">
-          {Array.isArray(tracking.items) && tracking.items.length > 0 ? (
-            tracking.items.map((item) => <OrderItems item={item} key={item._id} />)
-          ) : (
-            <li>No items found for this order.</li>
-          )}
-        </ul>
-
-        <div className="space-y-2 bg-stone-200 px-6 py-5">
-          <p className="text-xs text-stone-500">
-            Price Pizza: {formatCurrency(tracking?.totalPrice)}
-          </p>
-          <p className="font-bold">
-            To pay on Delivery: {formatCurrency(tracking?.totalPrice)}
-          </p>
-        </div>
+        <a className="print_btn common_btn" href="#"><i className="far fa-print" /> print
+          PDF</a>
       </div>
-      <Footer />
-    </>
+    </div>
+  </div>
+</div>
+
   );
 };
 

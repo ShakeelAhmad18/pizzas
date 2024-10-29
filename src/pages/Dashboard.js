@@ -3,16 +3,12 @@ import { useContext, useState } from "react";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { Outlet, useLocation } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
-import {
-  HomeIcon,
-  UserIcon,
-} from '@heroicons/react/24/solid';
-import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/solid';
 import useSignout from '../customHook/useSignout';
 import Footer from '../components/Footer';
 import { GrDeliver } from "react-icons/gr";
 import { useSelector } from 'react-redux';
 import { getALLOrder } from '../redux/orderSlice';
+import Navbar from '../components/Navbar'
 
 
 export default function Sidebar() {
@@ -25,82 +21,85 @@ export default function Sidebar() {
   const totalOrders = order.length;
 
   return (
-    <>
-      <div className="flex h-screen bg-slate-900">
-        {/* Sidebar */}
-        <div className={`fixed inset-y-0 left-0 z-30 bg-green-500 text-white transition-all duration-300 ease-in-out flex flex-col ${isOpen ? 'w-64' : 'w-20'}`}>
-          {/* Toggle Button */}
-          <div className="flex justify-end p-4">
-            <button onClick={() => setIsOpen(!isOpen)} className="text-white focus:outline-none transition-transform duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
-              </svg>
-            </button>
-          </div>
-
-          {/* Logo Section */}
-          <div className="flex flex-col items-center mt-4">
-            <Link to="/" className="flex flex-col items-center">
-              <img
-                src="/logo.png"
-                alt="logo"
-                className={`rounded-full transition-all duration-300 ${isOpen ? 'w-20 h-20' : 'w-10 h-10'}`}
-              />
-              {isOpen && <span className="text-lg font-bold mt-2">Dashboard</span>}
-            </Link>
-          </div>
-
-          {/* Navigation Links */}
-          <ul className="flex flex-col gap-4 p-4 mt-10">
-            <li>
-              <Link to="/dashboard" className="btn btn-ghost text-left text-xl flex items-center hover:bg-green-600 p-2 rounded transition duration-200">
-                <HomeIcon className='h-5 w-5 text-white' />
-                {isOpen && <span className="ml-2">Home</span>}
-              </Link>
-            </li>
-            <li>
-              <Link to="/dashboard/orders" className="btn btn-ghost text-left text-xl flex items-center hover:bg-green-600 p-2 rounded transition duration-200">
-                <CiDeliveryTruck className='h-5 w-5 text-white' />
-                {isOpen && <span className="ml-2">Order</span>}
-              </Link>
-            </li>
-            <li>
-              <Link to="/dashboard/profile" className="btn btn-ghost text-left text-xl flex items-center hover:bg-green-600 p-2 rounded transition duration-200">
-                <UserIcon className='h-5 w-5 text-white' />
-                {isOpen && <span className="ml-2">Profile</span>}
-              </Link>
-            </li>
+    <div>
+      <Navbar/>
+  <section className="page_breadcrumb" style={{background: 'url(images/counter_bg.jpg)'}}>
+    <div className="breadcrumb_overlay">
+      <div className="container">
+        <div className="breadcrumb_text">
+          <h1>user dashboard</h1>
+          <ul>
+            <li><Link to="/">home</Link></li>
+            <li><Link href="/dashboard">dashboard</Link></li>
           </ul>
-
-          {/* Logout Button */}
-          <div className="p-4 mt-auto">
-            <button className="btn btn-ghost text-left text-xl flex items-center hover:bg-red-600 p-2 rounded transition duration-200" onClick={signout}>
-              <ArrowRightOnRectangleIcon className='h-5 w-5 text-white' />
-              {isOpen && <span className="ml-2">Logout</span>}
-            </button>
-          </div>
         </div>
-
-        {/* Main Content */}
-        <div className={`flex-1 p-4 ${isOpen ? 'ml-64' : 'ml-20'}`}>
-          {/* Main Content Area */}
-          <div>
-            {isDashboard && (
-              <div className="flex flex-col">
-                <h1 className="flex text-2xl font-bold text-white items-start font-serif mt-28">
-                  👏 Welcome! {authUser.name}
-                </h1>
-                <div className="py-4 px-6 text-white font-bold bg-orange-400 rounded-xl mt-6 shadow-lg flex items-center space-x-2">
-                  <GrDeliver className="h-6 w-6 text-white" />
-                  <span>Placed Orders: <strong>{totalOrders}</strong></span>
+      </div>
+    </div>
+  </section>
+  {/*=============================
+    BREADCRUMB END
+==============================*/}
+  {/*=========================
+    DASHBOARD START
+==========================*/}
+  <section className="dashboard mt_100 xs_mt_70 mb_100 xs_mb_70">
+    <div className="container">
+      <div className="dashboard_area">
+        <div className="row">
+          <div className="col-xl-3 col-lg-4 wow fadeInUp" data-wow-duration="1s">
+            <div className="dashboard_menu">
+              <div className="dasboard_header">
+                <div className="dasboard_header_img">
+                  <img src={authUser.profilePic} alt="user" className="img-fluid w-100" />
+                  <label htmlFor="upload"><i className="far fa-camera" /></label>
+                  <input type="file" id="upload" hidden />
                 </div>
+                <h2>{authUser.name}</h2>
               </div>
-            )}
-            <Outlet />
+              <ul>
+                <li><Link className={`${location.pathname === '/dashboard' ? 'active' : ''}`} to="/dashboard"><span><i className="fas fa-user" /></span>
+                    Parsonal Info</Link></li>
+                <li>
+                </li>
+                <li><Link to="/dashboard/orders" className={`${location.pathname === '/dashboard/orders' ? 'active' : ''}`}><span><i className="fas fa-bags-shopping" /></span>
+                    Orders</Link></li>
+                <li><Link href=""><span><i className="far fa-heart" /></span>
+                    wishlist</Link></li>
+                <li><Link href=""><span><i className="fas fa-star" /></span> Reviews</Link>
+                </li>
+                <li><Link href=""><span><i className="fas fa-user-lock" /></span> Change Password</Link></li>
+                <li><Link href=""><span> <i className="fas fa-sign-out-alt" /></span><button onClick={signout}>Logout</button></Link></li>
+              </ul>
+            </div>
+          </div>
+          <div className="col-xl-9 col-lg-8 wow fadeInUp" data-wow-duration="1s">
+           { isDashboard && <div className="dashboard_content">
+              <div className="dashboard_body">
+                <h3>Parsonal Information
+                  <Link className="dash_add_new_address" href="">edit</Link>
+                </h3>
+                <div className="dash_personal_info">
+                  <div className="personal_info_text">
+                    <p><span>Name:</span>{authUser.name}</p>
+                    <p><span>Email:</span>{authUser.email}</p>
+                    <p><span>Phone:</span> 023 434 54354</p>
+                    <p><span>Address:</span> 7232 Broadway Suite 308, Jackson Heights,
+                      11372, NY, United States </p>
+                  </div>
+                </div>
+              </div> 
+            </div> }
+            <Outlet/>
           </div>
         </div>
       </div>
-      <Footer />
-    </>
+    </div>
+  </section>
+  {/*=========================
+    DASHBOARD END 
+==========================*/}
+<Footer/>
+</div>
+
   );
 }

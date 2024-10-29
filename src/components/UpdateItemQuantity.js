@@ -1,13 +1,28 @@
 import React from 'react'
-import Button from '../utils/Button'
+import {useDispatch} from 'react-redux'
+import {increasedItemQuantity,decreaseItemQuantity} from '../redux/cartSlice'
 
-const UpdateItemQuantity = ({pizzaId}) => {
+const UpdateItemQuantity = ({item}) => {
+  const dispatch=useDispatch();
+
+  const {pizzaId}=item;
+
+  const incresedQunatity=()=>{
+    dispatch(increasedItemQuantity(pizzaId))
+ }
+
+ const decresedQuantity=()=>{
+  dispatch(decreaseItemQuantity(pizzaId))
+}
+
+ 
+
   return (
-    <div className="flex gap-1 items-center md:gap-6">
-    <Button type='round' >+</Button>
-      12
-    <Button type='round'>-</Button>
-</div>
+    <div className="quentity_btn">
+      <button className="btn btn-danger" onClick={incresedQunatity}>+</button>
+       <input type="text" value={item.quantity} placeholder='1' />
+      <button className="btn btn-success" onClick={decresedQuantity}>-</button>
+  </div>
   )
 }
 

@@ -8,10 +8,11 @@ const useSign = () => {
      const {setAuthUser}=useContext(UserContext)
     
      const login=async ({email,password})=>{
-
-
+      
+        console.log(password)
+        
         if(password.length < 6){
-            return toast.error('Password must be 4 character')
+            return toast.error('Password must be 6 character')
         }
 
         setIsLoading(true)
@@ -21,7 +22,8 @@ const useSign = () => {
             const data=res.data;
             localStorage.setItem('auth-user',JSON.stringify(data))
             setAuthUser(data)
-
+            toast.success('Login Successfully')
+            
             if(data.error){
                toast.error('Invalid User Details')
             }

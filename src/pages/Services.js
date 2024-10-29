@@ -1,56 +1,122 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import './Services.css'; 
-import Footer from '../components/Footer'
+import Footer from '../components/Footer';
+import { Link } from 'react-router-dom';
 
 export default function Services() {
-
-    const from='10';
-    const to='2';
-
     document.title = 'Services';
-    const services = [
-        {
-            title: 'Fast Delivery',
-            iconUrl: 'fastShipping.png',
-            description: 'Enjoy piping hot pizzas delivered to your doorstep in record time. Our speedy delivery ensures your meal arrives fresh and delicious, every time.'
-        },
-        {
-            title: 'Healthy Food',
-            iconUrl: 'healthy.png',
-            description: 'Savor the taste of health with our nutritious and delicious pizza options. We use fresh, high-quality ingredients to create meals that are both tasty and good for you.'
-        },
-        {
-            title: 'Quality Services',
-            iconUrl: 'services.png',
-            description: 'Experience top-notch service from our friendly and professional staff. We are dedicated to making your dining experience exceptional, whether you dine in or take out.'
-        }
-    ];
 
     return (
         <>
             <Navbar />
-            <div className='h-screen bg-gray-50 text-slate-900'>
-                <div className='text-center mb-10'>
-                    <h1 className='text-4xl mt-20 font-thin font-mono'>Services</h1>
-                    <p className="text-slate-900 mt-2 font-serif">Far far away, behind the word mountains, far from the countries Vokalia and</p>
-                    <p className='text-slate-900 font-serif'>Consonantia, there live the blind texts.</p>
-                </div>
-                <div className="container mx-auto px-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    {services.map((service, index) => (
-                        <div key={index} className="text-center service-card">
-                            <div className="bg-green-100 p-6 rounded-lg mb-6">
-                                <img src={service.iconUrl} alt={service.title} className="mx-auto w-16 rounded-full h-16 object-contain" />
+            <div>
+                <section className="page_breadcrumb" style={{background: 'url(images/breadcrumb_bg.jpg)'}}>
+                    <div className="breadcrumb_overlay">
+                        <div className="container">
+                            <div className="breadcrumb_text">
+                                <h1>Our Services</h1>
+                                <ul>
+                                    <li><Link to="/">Home</Link></li>
+                                    <li><Link>Our Services</Link></li>
+                                </ul>
                             </div>
-                            <h2 className="text-xl font-semibold">{service.title}</h2>
-                            <p className="text-gray-700 mt-4">
-                                {service.description}
-                            </p>
                         </div>
-                    ))}
-                </div>
+                    </div>
+                </section>
+
+                <section className="about_us mt_100 xs_mt_70">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-xl-6 col-lg-6 wow fadeInLeft" data-wow-duration="1s">
+                                <div className="about_us_img">
+                                    <div className="img">
+                                        <img src="images/about_chef.png" alt="about us" className="img-fluid w-100" />
+                                    </div>
+                                    <h3>12+ <span>Years of Experience</span></h3>
+                                    <p>Bringing Flavor and Joy with Every Order!</p>
+                                </div>
+                            </div>
+                            <div className="col-xl-6 col-lg-6 wow fadeInRight" data-wow-duration="1s">
+                                <div className="section_heading mb_25">
+                                    <h4>About Company</h4>
+                                    <h2>Your One-Stop for Cravings</h2>
+                                </div>
+                                <div className="about_us_text">
+                                    <p>We believe great food should be quick, fresh, and satisfying. Our menu offers everything from sizzling pizzas to refreshing drinks – all prepared with the finest ingredients.</p>
+                                    <ul>
+                                        <li>
+                                            <h4>Trusted Partner in Taste</h4>
+                                            <p>With over 85,000 happy customers, we’re committed to bringing you an exceptional dining experience every time!</p>
+                                        </li>
+                                        <li>
+                                            <h4>First Delivery, Every Time</h4>
+                                            <p>Order with confidence – our team ensures fast and reliable delivery right to your door!</p>
+                                        </li>
+                                        <li>
+                                            <h4>Secure Payment</h4>
+                                            <p>Enjoy a seamless, secure payment process so you can focus on what matters most – delicious food!</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="about_choose mt_100 xs_mt_70">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-xxl-8 col-lg-7 wow fadeInLeft mb-8" data-wow-duration="1s">
+                                <div className="section_heading mb_25">
+                                    <h4>Why Choose Us?</h4>
+                                    <h2>We're the Best for a Reason</h2>
+                                </div>
+                                <div className="about_choose_text">
+                                    <p>Our customers love us for a reason! We combine quality ingredients, skilled chefs, and excellent service to bring you the best meals around.</p>
+                                    <div className="row">
+                                        <div className="col-xl-6">
+                                            <div className="about_choose_text_box">
+                                                <span><i className="fas fa-burger-soda" /></span>
+                                                <h4>Fresh Food</h4>
+                                                <p>Enjoy every bite made from the finest, freshest ingredients!</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-xl-6">
+                                            <div className="about_choose_text_box">
+                                                <span><i className="fal fa-truck" /></span>
+                                                <h4>Fast Delivery</h4>
+                                                <p>Get your order hot and fresh, delivered straight to you in minutes!</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-xl-6">
+                                            <div className="about_choose_text_box">
+                                                <span><i className="fas fa-file-certificate" /></span>
+                                                <h4>Quality Maintained</h4>
+                                                <p>We never compromise on quality – your satisfaction is our priority!</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-xl-6">
+                                            <div className="about_choose_text_box">
+                                                <span><i className="fas fa-headset" /></span>
+                                                <h4>24/7 Service</h4>
+                                                <p>Need something? Our team is here for you, anytime, every day!</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-xxl-4 col-lg-5 wow fadeInRight" data-wow-duration="1s">
+                                <div className="about_choose_img">
+                                    <img src="images/why_choose_img.jpg" alt="about us" className="img-fluid w-100" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <Footer/>
             </div>
-            <Footer/>
         </>
     );
 }

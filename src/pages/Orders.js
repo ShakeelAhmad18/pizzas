@@ -66,20 +66,34 @@ const Orders = () => {
     const dispatch=useDispatch()
     const order=useSelector(getALLOrder)
 
+    useEffect(()=>{
+      window.scrollTo(0,0);
+     },[])
+
    useEffect(()=>{
   
       dispatch(getAllOrders())
 
    },[dispatch])
 
+
   
   return (
-    <div className="h-screen flex flex-col">
-      <h2 className="text-white py-7 text-3xl font-bold font-serif mr-16">Your Orders</h2>
-      <div className="flex-1 pl-10 pr-6 lg:mr-32"> 
-        <OrderCard orders={order} />
+    <div className="col-xl-9 col-lg-8 wow fadeInUp w-full h-[500px]" data-wow-duration="1s">
+  <div className="dashboard_content">
+    <div className="dashboard_body">
+      <h3>order list</h3>
+      <div className="dashboard_order">
+        <div className="table-responsive">
+          <table className="table">
+             <OrderCard orders={order}/>
+          </table>
+        </div>
       </div>
     </div>
+  </div>
+</div>
+
   );
 };
 

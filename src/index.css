@@ -2,240 +2,179 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+
+/* topbar start */
+.topbar {
+    width: 100%;
+    height: 50px;
+    background: var(--colorBlack);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-.loader {
-  width: 45px;
-  aspect-ratio: 0.75;
-  --c: no-repeat linear-gradient(theme(colors.stone.800) 0 0);
-  background: var(--c) 0% 50%, var(--c) 50% 50%, var(--c) 100% 50%;
-  background-size: 20% 50%;
-  animation: loading 1s infinite linear;
-}
-
-@keyframes loading {
-  20% {
-    background-position: 0% 0%, 50% 50%, 100% 50%;
-  }
-  40% {
-    background-position: 0% 100%, 50% 0%, 100% 50%;
-  }
-  60% {
-    background-position: 0% 50%, 50% 100%, 100% 0%;
-  }
-  80% {
-    background-position: 0% 50%, 50% 50%, 100% 100%;
-  }
-}
-
-
-body{
-  background-image: url('/public/home.png');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-}
-
-::-webkit-scrollbar{
-  cursor: pointer;
-  width: 8px;
-}
-
-::-webkit-scrollbar-track{
-  cursor: pointer;
-  background: #555;
-}
-
-::-webkit-scrollbar-thumb{
-  background: #121212;
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover{
-  background: #242424;
-}
-
-/* Add this to your CSS file */
-@media (max-width: 768px) {
-  .flex-col {
-    flex-direction: column;
-  }
-  .grid-cols-1 {
-    grid-template-columns: 1fr;
-  }
-  .grid-cols-2 {
-    grid-template-columns: 1fr 1fr;
-  }
-  .grid-cols-3 {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-}
-
-body {
-  font-family: sans-serif;
-  margin: 0; 
-}
-
-.container {
-  display: flex;
-}
-
-.sidebar {
-  width: 250px; 
-  background-color: #f1f1f1; 
-  padding: 20px;
-  position: sticky; /* Make it sticky */
-  top: 0;           /* Stick to the top */
-  height: calc(100vh - 64px); /* Adjust height as needed (64px for navbar?) */
-  overflow-y: auto;
-}
-
-.sidebar a {
-  display: block;
-  padding: 10px;
-  text-decoration: none;
-  color: #333;
-}
-
-.sidebar a:hover {
-  background-color: #ddd;
-}
-
-.content {
-  flex: 1;
-  padding: 20px;
-}
-
-/* Icon Grid (adjust for your menu items) */
-.menu-grid { 
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive columns */
-  gap: 20px;
-}
-
-/* Styling for each Menu Item */
-.menu-item {
-  border: 1px solid #ccc; 
-  padding: 10px;
-}
-
-
-/* Tailwind CSS styles in your main CSS file */
-.table-container {
-  max-height: 490px; /* You can adjust this height as needed */
-  overflow-y: auto; /* This will allow vertical scrolling if necessary */
-}
-
-/* Ensure the Navbar is fixed at the top */
-.navbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000; /* So it stays above other elements */
-}
-
-/* Adjust the Filter */
-.filter-sidebar {
-  position: sticky;
-  top: 70px; /* Adjust based on Navbar height */
-  z-index: 500; /* Make sure it stays below the Navbar but above the content */
-  height: auto; /* Make sure it's not too tall for mobile view */
-  overflow-y: auto;
-}
-
-/* Menu Item Cards */
-.menu-item {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 10px;
-  margin-bottom: 15px;
-  background-color: #1c1f24; /* Dark background for contrast */
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Menu Item Images */
-.menu-item img {
-  width: 100%;
-  height: auto; /* Ensure the images resize properly */
-  border-radius: 8px 8px 0 0;
-}
-
-/* Button Styling */
-.menu-item button {
-  background-color: #ffc107; /* Highlighted yellow button */
-  padding: 10px;
-  margin-top: 10px;
-  border-radius: 6px;
-  font-weight: bold;
-  width: auto; /* Ensure button is full width */
-}
-
-/* Make sure the images don't overflow */
-.menu-item img {
-  object-fit: cover;
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-}
-
-/* Fallback for missing images */
-.menu-item img {
-  background-color: #2a2c32; /* Fallback color if the image doesn't load */
-  display: block;
-  width: 100%;
-  height: 150px; /* Placeholder height for missing images */
-}
-
-/* Text Adjustments */
-.menu-item h3 {
-  font-size: 1rem; /* Reduce font size for mobile */
-  margin: 10px 0;
-}
-
-.menu-item p {
-  font-size: 0.875rem; /* Reduce paragraph size */
-  color: #c4c4c4; /* Lighter text color for better contrast */
-}
-
-/* Apply styles for mobile view */
-@media (max-width: 640px) {
-  /* Ensure the filter does not overlap */
-  .filter-sidebar {
+.topbar_info {
+    line-height: 50px;
     position: relative;
-    margin-bottom: 20px; /* Adds space below the filter */
-  }
-
-  /* Fix the layout for the menu items */
-  .menu-items {
-    margin-top: 20px; /* Adds a gap between the filter and the first menu item */
-  }
+    justify-content: center;
 }
 
-/* General styles for larger screens */
-@media (min-width: 640px) {
-  .filter-sidebar {
-    position: sticky; /* Allows it to remain fixed on larger screens */
-    top: 16px; /* Set a distance from the top */
-    margin-right: 20px; /* Space between filter and content */
-  }
-
-  .menu-items {
-    margin-left: 20px; /* Extra space on the left for menu items */
-  }
+.topbar_info::after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: var(--colorPrimary);
+    top: 0;
+    left: 0;
+    z-index: -1;
+    clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
 }
+
+.topbar_info li {
+    margin-right: 30px;
+}
+
+.topbar_info li:last-child {
+    margin: 0;
+}
+
+.topbar_info li a {
+    color: var(--colorWhite);
+    font-size: 16px;
+    transition: all linear .3s;
+    -webkit-transition: all linear .3s;
+    -moz-transition: all linear .3s;
+    -ms-transition: all linear .3s;
+    -o-transition: all linear .3s;
+}
+
+.topbar_info li a:hover {
+    color: var(--colorBlack);
+}
+
+.topbar_info li a i {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.topbar_icon {
+    line-height: 50px;
+    justify-content: end;
+}
+
+.topbar_icon li a {
+    color: var(--colorWhite);
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%;
+    background: var(--colorPrimary);
+    text-align: center;
+    margin-left: 10px;
+    font-size: 14px;
+    transition: all linear .3s;
+    -webkit-transition: all linear .3s;
+    -moz-transition: all linear .3s;
+    -ms-transition: all linear .3s;
+    -o-transition: all linear .3s;
+    position: relative;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+
+.topbar_icon li a:hover {
+    background: var(--colorWhite);
+    color: var(--colorPrimary);
+}
+
+/* topbar end */
+
+
+@media (max-width: 768px) {
+    .container {
+      justify-content: center;
+      text-align: center;
+    }
+  
+    .container span {
+      font-size: 1.5rem; /* Smaller font size for better fit */
+    }
+  }
+  
+
+  .topbar {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .navbar-scrolled-up {
+    transform: translateY(-50px);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .hidden {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+  }
+  
+
+  /* Body font */
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Heading font */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+    color: #222;
+    font-weight: 600;
+}
+
+/* Navbar font */
+.navbar a {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+}
+
+/* Section Titles */
+.section_heading h2, .section_heading h4 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: #444;
+}
+
+/* About Section Text */
+.about_us_text p, .about_choose_text p, .mission_text p {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    color: #555;
+}
+
+/* Mission and Counter Sections */
+.mission_text h4, .single_counter p {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Counter Numbers */
+.counter_part .counter {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5em;
+    font-weight: 700;
+    color: #e84545;
+}
+
+.dashboard_order {
+    max-height: 500px; /* adjust as needed */
+    overflow-y: auto;
+  }
+  
