@@ -22,11 +22,10 @@ const useSign = () => {
             const data=res.data;
             localStorage.setItem('auth-user',JSON.stringify(data))
             setAuthUser(data)
+            if(data){
             toast.success('Login Successfully')
-            
-            if(data.error){
-               toast.error('Invalid User Details')
             }
+            
 
          } catch (error) {
 

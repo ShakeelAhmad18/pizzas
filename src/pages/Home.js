@@ -3,9 +3,36 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 //import {Link} from 'react-router-dom'
 import SearchOrder from '../components/SearchOrder'
-import {useEffect} from 'react'
+import {useEffect,useState} from 'react'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import axios from 'axios'
+import useBookedTable from '../customHook/useBookedTable'
+
 
 export default function Home() {
+  const [startDate, setStartDate] = useState(new Date());
+  const [bookedSlot,setBookedSlot]=useState([])
+  const formattedDates =startDate.toISOString().split("T")[0]; // "YYYY-MM-DD"
+
+
+  useEffect(() => {
+    setInput((prevInput) => ({
+      ...prevInput,
+      date: startDate.toISOString().split("T")[0] // Update date in "YYYY-MM-DD" format
+    }));
+  }, [startDate]);
+
+  const [input,setInput]=useState({
+    name:'',
+    email:'',
+    phone:'',
+    Time:'',
+    date:formattedDates,
+    persons:0
+  })
+
+  const {bookedTable}=useBookedTable()
 
   useEffect(()=>{
     window.scrollTo(0,0);
@@ -15,6 +42,54 @@ export default function Home() {
 
   const handleTop=()=>{
     window.scrollTo(0,0)
+  }
+
+  useEffect(() => {
+    async function Booking() {
+      try {
+        const formattedDate =startDate.toISOString().split("T")[0]; // "YYYY-MM-DD"
+        const response = await axios.post(`http://localhost:8000/api/table/getBookingwithTime`,{formattedDate},{withCredentials:true});
+        const booking = response.data;
+        setBookedSlot(booking);
+      } catch (error) {
+        console.error("Error fetching bookings:", error);
+      }
+    }
+  
+    if (startDate) {
+      Booking();
+    }
+  }, [startDate]);
+  
+
+  const timeSlot=[
+    "08.00 am to 09.00 am",
+    "10.00 am to 11.00 am",
+    "12.00 pm to 01.00 pm",
+    "02.00 pm to 03.00 pm",
+    "04.00 pm to 05.00 pm"
+  ]
+
+  const handlePersonsChange = (e) => {
+    setInput({ ...input, persons: e.target.value });
+  };
+
+  const handleTimeChange = (e) => {
+    setInput({ ...input, Time: e.target.value });
+  };
+
+  const handleBookedTable=(e)=>{
+
+      e.preventDefault();
+      bookedTable(input)
+      setInput({
+        name:'',
+        email:'',
+        phone:'',
+        Time:'',
+        date:'',
+        persons:0
+      })
   }
 
  
@@ -78,56 +153,78 @@ export default function Home() {
         <div className="col-xl-6 ms-auto">
           <div className="reservation_form wow fadeInRight" data-wow-duration="1s">
             <h2>book a table</h2>
-            <form>
+            <form onSubmit={handleBookedTable}>
               <div className="row">
                 <div className="col-xl-6 col-lg-6">
                   <div className="reservation_input_single">
                     <label htmlFor="name">name</label>
-                    <input type="text" id="name" placeholder="Name" className='w-full h-10 p-3' />
+                    <input type="text" id="name" required value={input.name} onChange={(e)=>setInput({...input,name:e.target.value})} placeholder="Name" className='w-full h-10 p-3' />
                   </div>
                 </div>
                 <div className="col-xl-6 col-lg-6">
                   <div className="reservation_input_single">
                     <label htmlFor="email">email</label>
-                    <input type="email" id="email" placeholder="Email" className='w-full h-10 p-3'/>
+                    <input type="email" id="email" required value={input.email} onChange={(e)=>setInput({...input,email:e.target.value})} placeholder="Email" className='w-full h-10 p-3'/>
                   </div>
                 </div>
                 <div className="col-xl-6 col-lg-6">
                   <div className="reservation_input_single">
                     <label htmlFor="phone">phone</label>
-                    <input type="text" id="phone" placeholder="Phone" className='w-full h-10 p-3' />
+                    <input type="text" id="phone" required value={input.phone} onChange={(e)=>setInput({...input,phone:e.target.value})} placeholder="Phone" className='w-full h-10 p-3' />
                   </div>
                 </div>
                 <div className="col-xl-6 col-lg-6">
                   <div className="reservation_input_single">
-                    <label htmlFor="date">select date</label>
-                    <input type="date" id="date" className='w-full h-10 p-3' />
+                    <label htmlFor="date">select date</label><br/>
+                    <DatePicker
+                       selected={startDate}
+                       filterDate={(date) => {
+                       const today = new Date();
+                       const maxDate = new Date();
+                       maxDate.setDate(today.getDate() + 4);
+                         // Only disable the date if all slots are booked
+                       const isDateFullyBooked = (selectedDate) =>
+                          bookedSlot[selectedDate.toISOString().split("T")[0]]?.length === timeSlot.length;
+
+                          return date >= today && date <= maxDate && !isDateFullyBooked(date);
+                         }}
+                       onChange={(date) => setStartDate(date)}
+                       className="w-full h-10 p-3"
+                    />
                   </div>
                 </div>
                 <div className="col-xl-6 col-lg-6">
                   <div className="reservation_input_single">
                     <label>select time</label>
-                    <select className="w-full h-10 rounded-sm">
-                      <option value>select</option>
-                      <option value>08.00 am to 09.00 am</option>
-                      <option value>10.00 am to 11.00 am</option>
-                      <option value>12.00 pm to 01.00 pm</option>
-                      <option value>02.00 pm to 03.00 pm</option>
-                      <option value>04.00 pm to 05.00 pm</option>
-                    </select>
+                    <select
+                            className="w-full h-10 rounded-sm"
+                            value={input.Time}
+                            onChange={handleTimeChange}
+                          >
+                            <option>Select</option>
+                            {timeSlot.map((slot, index) => (
+                              <option key={index} value={slot} disabled={bookedSlot.includes(slot)}>
+                                {slot}
+                              </option>
+                            ))}
+                          </select>
                   </div>
                 </div>
                 <div className="col-xl-6 col-lg-6">
                   <div className="reservation_input_single">
                     <label>select person</label>
-                    <select className="w-full h-10 rounded-sm">
-                      <option value>select</option>
-                      <option value>1 person</option>
-                      <option value>2 person</option>
-                      <option value>3 person</option>
-                      <option value>4 person</option>
-                      <option value>5 person</option>
-                    </select>
+                    <select
+                            className="w-full h-10 rounded-sm"
+                            value={input.persons}
+                            onChange={handlePersonsChange}
+                          >
+                            <option>Select</option>
+                            <option value="1">1 person</option>
+                            <option value="2">2 persons</option>
+                            <option value="3">3 persons</option>
+                            <option value="4">4 persons</option>
+                            <option value="5">5 persons</option>
+                          </select>
                   </div>
                 </div>
                 <div className="col-xl-12">
@@ -135,6 +232,50 @@ export default function Home() {
                 </div>
               </div>
             </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section className="counter_part mb-4 text-white" style={{background: 'url(images/counter_bg.jpg)'}}>
+  <div className="counter_overlay pt_120 xs_pt_90 pb_100 xs_pb_0">
+    <div className="container">
+      <div className="row">
+        <div className="col-xl-3 col-sm-6 col-lg-3 wow fadeInUp" data-wow-duration="1s">
+          <div className="single_counter">
+            <div className="text">
+              <h2 className="counter">85,000</h2>
+              <span><i className="fas fa-user" /></span>
+            </div>
+            <p className='text-white'>customer serve</p>
+          </div>
+        </div>
+        <div className="col-xl-3 col-sm-6 col-lg-3 wow fadeInUp" data-wow-duration="1s">
+          <div className="single_counter">
+            <div className="text">
+              <h2 className="counter">120</h2>
+              <span><i className="fas fa-hat-chef" /></span>
+            </div>
+            <p className='text-white'>experience chef</p>
+          </div>
+        </div>
+        <div className="col-xl-3 col-sm-6 col-lg-3 wow fadeInUp" data-wow-duration="1s">
+          <div className="single_counter">
+            <div className="text">
+              <h2 className="counter">72,000</h2>
+              <span><i className="fas fa-users" /></span>
+            </div>
+            <p className='text-white'>happy customer</p>
+          </div>
+        </div>
+        <div className="col-xl-3 col-sm-6 col-lg-3 wow fadeInUp" data-wow-duration="1s">
+          <div className="single_counter">
+            <div className="text">
+              <h2 className="counter">30</h2>
+              <span><i className="fas fa-trophy" /></span>
+            </div>
+            <p className='text-white'>winning award</p>
           </div>
         </div>
       </div>

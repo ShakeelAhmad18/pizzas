@@ -54,7 +54,7 @@ const Contact=()=>{
               </div>
               <div className="contact_info border-0 p-0 m-0">
                 <h3>location</h3>
-                <p>Boy's Hostel University TownShip Lahore,Punjab,Pakistan</p>
+                <p>Boy's Hostel University of Education TownShip Lahore,Punjab,Pakistan</p>
               </div>
             </div>
           </div>
