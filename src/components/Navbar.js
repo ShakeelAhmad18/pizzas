@@ -82,11 +82,15 @@ export default function Navbar() {
               <li className="nav-item">
                 <Link className={`nav-link ${isActive === '/menu' ? 'active' : ''}`} to="/menu?category=pizza">Menu</Link>
               </li>
+      
               <li className="nav-item">
-                <Link className={`nav-link ${isActive === '/services' ? 'active' : ''}`} to="/services">Services</Link>
+                <Link className={`nav-link ${isActive === '/table' ? 'active' : ''}`} to="/table">Book Table</Link>
               </li>
               <li className="nav-item">
                 <Link className={`nav-link ${isActive === '/dashboard' ? 'active' : '' || isActive === '/dashboard/orders' ? 'active' : '' || isActive === '/dashboard/trackorder' ? 'active' : ''}`} to="/dashboard">Dashboard</Link>
+              </li>
+              <li className="nav-item">
+                <Link className={`nav-link ${isActive === '/services' ? 'active' : ''}`} to="/services">Services</Link>
               </li>
               <li className="nav-item">
                 <Link className={`nav-link ${isActive === '/contact' ? 'active' : ''}`} to="/contact">Contact</Link>

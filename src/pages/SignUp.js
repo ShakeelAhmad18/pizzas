@@ -124,7 +124,7 @@ const SignUp = () => {
               <div className="row">
                 <div className="col-xl-12">
                   <div className="login_imput">
-                    <input type="text" placeholder="Name" required value={input.name} onCanPlay={(e)=>setInput({...input,name:e.target.value})} className='w-full h-10 p-4'/>
+                    <input type="text" placeholder="Name" required value={input.name} onChange={(e)=>setInput({...input,name:e.target.value})} className='w-full h-10 p-4'/>
                   </div>
                 </div>
                 <div className="col-xl-12">

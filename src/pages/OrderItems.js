@@ -2,7 +2,6 @@ import { formatCurrency } from "../utils/helpers";
 
 function OrderItem({ item }) {
   const { quantity, name, itemtotalprice, itemId } = item;
-  console.log(name)
 
   return (
     <li className="py-4 border-b border-gray-300">

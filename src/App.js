@@ -20,6 +20,8 @@ import MenuDetail from './pages/Menu_Detail'
 import ConfrimOrder from './pages/ConfirmOrder'
 import NotFound from './pages/NotFound'
 import Contact from './pages/Contact'
+import Table from "./pages/Table";
+import TableDetail from "./pages/TableDetail";
 
 const queryClient=new QueryClient({
   defaultOptions:{
@@ -43,12 +45,14 @@ function App() {
          <Route path="/cart" element={!authUser ? <Navigate to='/login'/> : <Cart/>}/>
          <Route path="/menu" element={<Menu/>}/>
          <Route path="/contact" element={<Contact/>}/>
+         <Route path="/table" element={<Table/>}/>
          <Route exact path="/menu_detail/:id" element={<MenuDetail/>}/>
          <Route path="/order/:id" element={<Order/>}/>
          <Route path="/services" element={<Services/>}/>
          <Route path="/login" element={authUser ? <Navigate to='/'/> : <Login/>}/>
          <Route path="/signup" element={<SignUp/>}/>
          <Route path="/confirmorder/:id" element={<ConfrimOrder/>}/>
+         <Route path="/tabledetail/:id" element={<TableDetail/>}/>
          <Route path="/dashboard" element={!authUser ? <Navigate to='/login'/> : <Dashboard/>}>
            <Route path="profile" element={<Profile />} />
            <Route path="orders" element={<Orders/>}/>

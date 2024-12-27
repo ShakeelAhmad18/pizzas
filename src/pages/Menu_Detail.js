@@ -4,30 +4,28 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import axios from 'axios';
 import Spinner from '../components/Spinner';
-import {useDispatch,useSelector} from 'react-redux'
-import {addItems,deleteCartQuantityById,deleteItem} from '../redux/cartSlice'
-import toast from 'react-hot-toast'
+import { useDispatch, useSelector } from 'react-redux';
+import { addItems, deleteCartQuantityById, deleteItem } from '../redux/cartSlice';
+import toast from 'react-hot-toast';
 
 const Menu_Detail = () => {
   const navigate = useNavigate();
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   let { id } = useParams();
   const [pizzaDetail, setPizzaDetail] = useState([]);
   const [size, setSize] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [options, setOptions] = useState('');
-  const currentQuantity=useSelector(deleteCartQuantityById(id))
-  const isInCart=currentQuantity > 0;
+  const currentQuantity = useSelector(deleteCartQuantityById(id));
+  const isInCart = currentQuantity > 0;
 
-  const handleDecreasedQuantity=()=>{
-    if(quantity > 1) setQuantity(quantity - 1)
-  }
+  const handleDecreasedQuantity = () => {
+    if (quantity > 1) setQuantity(quantity - 1);
+  };
 
-  const handleIncreasedQauntity=()=>{
-    setQuantity(quantity + 1)
-  }
-
-
+  const handleIncreasedQuantity = () => {
+    setQuantity(quantity + 1);
+  };
 
   const goToMenu = () => {
     navigate(-1);
@@ -43,38 +41,35 @@ const Menu_Detail = () => {
       const datas = data.data;
       setPizzaDetail(datas);
     }
-   
     getPizza();
   }, [id]);
-  
+
   if (pizzaDetail.length === 0) return <Spinner />;
 
-  const { sizes, flavors, discount ,price,name,image,ingredients} = pizzaDetail;
-  const discountPrice=Math.round(price - ((price/100)*discount));
-   
-   const handleAddItem=async ()=>{
-       const newItem={
-          pizzaId:id,
-          name,
-          image,
-          totalPrice:discountPrice*quantity,
-          quantity,
-          price:discountPrice,
-          size,
-          flavour:options ? options : '-',
-          ingredients
-       }
-       dispatch(addItems(newItem))
-       toast.success('Item Added to cart')
-   }
+  const { sizes, flavors, discount, price, name, image, ingredients } = pizzaDetail;
+  const discountPrice = Math.round(price - ((price / 100) * discount));
 
-   
-   const handleRemoveFromCart=()=>{
-     dispatch(deleteItem(id))
-     toast.success('Item Remove from Cart')
-   }
+  const handleAddItem = async () => {
+    const newItem = {
+      pizzaId: id,
+      name,
+      image,
+      totalPrice: discountPrice * quantity,
+      quantity,
+      price: discountPrice,
+      size,
+      flavour: options ? options : '-',
+      ingredients
+    };
+    dispatch(addItems(newItem));
+    toast.success('Item Added to cart');
+  };
 
-   
+  const handleRemoveFromCart = () => {
+    dispatch(deleteItem(id));
+    toast.success('Item Removed from Cart');
+  };
+
   return (
     <>
       <Navbar />
@@ -99,15 +94,16 @@ const Menu_Detail = () => {
           <div className="md:w-1/2">
             <img
               className="w-full h-48 object-cover"
-              src={pizzaDetail.image.filePath} // Replace with actual image URL
+              src={pizzaDetail.image.filePath}
               alt={pizzaDetail.image.fileName}
             />
           </div>
 
           {/* Content Section */}
-          <div className="p-6 md:w-1/2 flex flex-col justify-between overflow-y-auto h-[400px]">
-            {/* Title and Rating */}
-            <div className="mb-4">
+          <div className="p-6 md:w-1/2 flex flex-col justify-between h-[400px]">
+            {/* Scrollable Main Content */}
+            <div className="overflow-y-auto flex-grow mb-4">
+              {/* Title and Rating */}
               <h2 className="text-2xl font-semibold text-gray-900 mb-2 text-center">
                 {pizzaDetail.name}
               </h2>
@@ -138,73 +134,82 @@ const Menu_Detail = () => {
                   ${pizzaDetail.price}.00
                 </span>
               </div>
+
+              {/* Size Selection */}
+              {sizes.length > 0 && (
+                <div className="mb-4 text-center">
+                  <h3 className="text-lg font-semibold mb-2">Select Size</h3>
+                  <div className="flex justify-center flex-wrap gap-2">
+                    {sizes.map((item) => (
+                      <label className="cursor-pointer" key={item._id}>
+                        <input
+                          type="radio"
+                          name="size"
+                          className="radio radio-primary"
+                          value={item.size}
+                          onChange={() => setSize(item.size)}
+                        />
+                        <span className="ml-2">{item.size}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Flavor Selection */}
+              {flavors.length > 0 && (
+                <div className="mb-4 text-center">
+                  <h3 className="text-lg font-semibold mb-2">Select Flavors</h3>
+                  <div className="grid grid-cols-1 gap-4 h-24">
+                    {flavors.map((flav) => (
+                      <label className="cursor-pointer" key={flav._id}>
+                        <input
+                          type="radio"
+                          name="flavors"
+                          className="radio radio-primary"
+                          value={flav.flavor}
+                          onChange={() => setOptions(flav.flavor)}
+                        />
+                        <span className="ml-2">{flav.flavor}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
-            {/* Size Selection */}
-            {sizes.length > 0 && (
-              <div className="mb-4 text-center">
-                <h3 className="text-lg font-semibold mb-2">Select Size</h3>
-                <div className="flex justify-center flex-wrap gap-2">
-                  {sizes.map((item) => (
-                    <label className="cursor-pointer" key={item._id}>
-                      <input
-                        type="radio"
-                        name="size"
-                        className="radio radio-primary"
-                        value={item.size}
-                        onChange={() => setSize(item.size)}
-                      />
-                      <span className="ml-2">{item.size}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Flavor Selection with Scrollable Section */}
-            {flavors.length > 0 && (
-              <div className="mb-4 text-center">
-                <h3 className="text-lg font-semibold mb-2">Select Flavors</h3>
-                <div className="grid grid-cols-1 gap-4 overflow-y-auto h-24">
-                  {flavors.map((flav) => (
-                    <label className="cursor-pointer" key={flav._id}>
-                      <input
-                        type="radio"
-                        name="flavors"
-                        className="radio radio-primary"
-                        value={flav.flavor}
-                        onChange={() => setOptions(flav.flavor)}
-                      />
-                      <span className="ml-2">{flav.flavor}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Quantity Selection */}
-            <div className="mb-4 flex justify-center items-center">
+            {/* Quantity and Add to Cart Button in a Fixed Row */}
+            <div className="flex items-center justify-between mt-2 border-t pt-2">
               <button
                 className="btn btn-outline btn-primary"
                 onClick={handleDecreasedQuantity}
               >
                 -
               </button>
-              <span className="mx-4 text-lg">{quantity}</span>
+              <span className="text-lg">{quantity}</span>
               <button
                 className="btn btn-outline btn-primary"
-                onClick={handleIncreasedQauntity}
+                onClick={handleIncreasedQuantity}
               >
                 +
               </button>
+              {!isInCart ? (
+                <button
+                  onClick={handleAddItem}
+                  className="btn btn-primary transition-all duration-300 transform hover:scale-105"
+                  disabled={!size}
+                >
+                  Add to Cart
+                </button>
+              ) : (
+                <button
+                  onClick={handleRemoveFromCart}
+                  className="btn btn-primary  transition-all duration-300 transform hover:scale-105"
+                >
+                  Remove from Cart
+                </button>
+              )}
             </div>
-
-            {/* Add to Cart Button */}
-          {!isInCart ?  <button onClick={()=>handleAddItem()} className="btn btn-primary w-full transition-all duration-300 transform hover:scale-105" disabled={!size}>
-              Add to Cart
-            </button> : <button onClick={()=>handleRemoveFromCart()} className="btn btn-primary w-full transition-all duration-300 transform hover:scale-105">
-              Remove to Cart
-            </button> }
           </div>
         </div>
       </div>

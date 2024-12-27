@@ -5,12 +5,11 @@ import { useQuery } from '@tanstack/react-query';
 import { useSearchParams,useNavigate,useLocation } from 'react-router-dom';
 import Footer from '../components/Footer';
 import {Link} from 'react-router-dom'
-import {useState} from 'react'
+import {useEffect} from 'react'
 
 export default function Menu() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [id,setId]=useState('')
   let location = useLocation();
   const filter = searchParams.get('category');
   const handleFilter = (filter) => {
@@ -19,10 +18,14 @@ export default function Menu() {
     navigate(`${location.pathname}?${params.toString()}`, { replace: true });
   };
 
+  useEffect(()=>{
+    window.scrollTo(0,0);
+   },[])
 
+  
 
   document.title = 'Menu';
-
+  
    
   const { isPending, data: menu } = useQuery({
     queryKey: ['menu'],
@@ -64,7 +67,7 @@ export default function Menu() {
   {/*=============================
   MENU PAGE START
     ==============================*/}
- <section className="menu_page mt_100 xs_mt_70 mb_100 xs_mb_70">
+ <section className="menu menu_page mt_100 xs_mt_70 mb_100 xs_mb_70">
   <div className="container">
     <div className="row">
       <div className="col-xl-6 col-lg-6 wow fadeInUp" data-wow-duration="1s">
@@ -120,3 +123,5 @@ export default function Menu() {
 
   );
 }
+
+

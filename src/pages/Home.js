@@ -1,38 +1,32 @@
 import React from 'react';
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-//import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import SearchOrder from '../components/SearchOrder'
 import {useEffect,useState} from 'react'
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import axios from 'axios'
-import useBookedTable from '../customHook/useBookedTable'
+import { getMenu } from '../services/menuServices';
+import { useQuery } from '@tanstack/react-query';
+import Loader from '../components/Spinner'
 
 
 export default function Home() {
-  const [startDate, setStartDate] = useState(new Date());
-  const [bookedSlot,setBookedSlot]=useState([])
-  const formattedDates =startDate.toISOString().split("T")[0]; // "YYYY-MM-DD"
+  const [pizzaMenu,setPizzaMenu]=useState([])
+
+  const { data } = useQuery({
+    queryKey: ['menu1'],
+    queryFn: getMenu,
+  });
+  
+  
+  useEffect(()=>{
+    if(data){
+      setPizzaMenu(data);
+    }
+  },[data])
 
 
-  useEffect(() => {
-    setInput((prevInput) => ({
-      ...prevInput,
-      date: startDate.toISOString().split("T")[0] // Update date in "YYYY-MM-DD" format
-    }));
-  }, [startDate]);
 
-  const [input,setInput]=useState({
-    name:'',
-    email:'',
-    phone:'',
-    Time:'',
-    date:formattedDates,
-    persons:0
-  })
-
-  const {bookedTable}=useBookedTable()
 
   useEffect(()=>{
     window.scrollTo(0,0);
@@ -44,55 +38,11 @@ export default function Home() {
     window.scrollTo(0,0)
   }
 
-  useEffect(() => {
-    async function Booking() {
-      try {
-        const formattedDate =startDate.toISOString().split("T")[0]; // "YYYY-MM-DD"
-        const response = await axios.post(`http://localhost:8000/api/table/getBookingwithTime`,{formattedDate},{withCredentials:true});
-        const booking = response.data;
-        setBookedSlot(booking);
-      } catch (error) {
-        console.error("Error fetching bookings:", error);
-      }
-    }
+
+   
+  const pizzas=pizzaMenu.filter((item)=>item.category === 'pizza')
+
   
-    if (startDate) {
-      Booking();
-    }
-  }, [startDate]);
-  
-
-  const timeSlot=[
-    "08.00 am to 09.00 am",
-    "10.00 am to 11.00 am",
-    "12.00 pm to 01.00 pm",
-    "02.00 pm to 03.00 pm",
-    "04.00 pm to 05.00 pm"
-  ]
-
-  const handlePersonsChange = (e) => {
-    setInput({ ...input, persons: e.target.value });
-  };
-
-  const handleTimeChange = (e) => {
-    setInput({ ...input, Time: e.target.value });
-  };
-
-  const handleBookedTable=(e)=>{
-
-      e.preventDefault();
-      bookedTable(input)
-      setInput({
-        name:'',
-        email:'',
-        phone:'',
-        Time:'',
-        date:'',
-        persons:0
-      })
-  }
-
- 
   return (
     <div>
   <Navbar/>
@@ -146,99 +96,106 @@ export default function Home() {
       </div>
     </div>
   </section>
-  <section className="reservation mt-7 mb-7">
+  <section className="reservation mt-7">
   <div className="container">
     <div className="reservation_bg" style={{background: 'url(images/reservation_bg.jpg)'}}>
       <div className="row">
         <div className="col-xl-6 ms-auto">
           <div className="reservation_form wow fadeInRight" data-wow-duration="1s">
             <h2>book a table</h2>
-            <form onSubmit={handleBookedTable}>
+            <div>
               <div className="row">
-                <div className="col-xl-6 col-lg-6">
-                  <div className="reservation_input_single">
-                    <label htmlFor="name">name</label>
-                    <input type="text" id="name" required value={input.name} onChange={(e)=>setInput({...input,name:e.target.value})} placeholder="Name" className='w-full h-10 p-3' />
-                  </div>
-                </div>
-                <div className="col-xl-6 col-lg-6">
-                  <div className="reservation_input_single">
-                    <label htmlFor="email">email</label>
-                    <input type="email" id="email" required value={input.email} onChange={(e)=>setInput({...input,email:e.target.value})} placeholder="Email" className='w-full h-10 p-3'/>
-                  </div>
-                </div>
-                <div className="col-xl-6 col-lg-6">
-                  <div className="reservation_input_single">
-                    <label htmlFor="phone">phone</label>
-                    <input type="text" id="phone" required value={input.phone} onChange={(e)=>setInput({...input,phone:e.target.value})} placeholder="Phone" className='w-full h-10 p-3' />
-                  </div>
-                </div>
-                <div className="col-xl-6 col-lg-6">
-                  <div className="reservation_input_single">
-                    <label htmlFor="date">select date</label><br/>
-                    <DatePicker
-                       selected={startDate}
-                       filterDate={(date) => {
-                       const today = new Date();
-                       const maxDate = new Date();
-                       maxDate.setDate(today.getDate() + 4);
-                         // Only disable the date if all slots are booked
-                       const isDateFullyBooked = (selectedDate) =>
-                          bookedSlot[selectedDate.toISOString().split("T")[0]]?.length === timeSlot.length;
-
-                          return date >= today && date <= maxDate && !isDateFullyBooked(date);
-                         }}
-                       onChange={(date) => setStartDate(date)}
-                       className="w-full h-10 p-3"
-                    />
-                  </div>
-                </div>
-                <div className="col-xl-6 col-lg-6">
-                  <div className="reservation_input_single">
-                    <label>select time</label>
-                    <select
-                            className="w-full h-10 rounded-sm"
-                            value={input.Time}
-                            onChange={handleTimeChange}
-                          >
-                            <option>Select</option>
-                            {timeSlot.map((slot, index) => (
-                              <option key={index} value={slot} disabled={bookedSlot.includes(slot)}>
-                                {slot}
-                              </option>
-                            ))}
-                          </select>
-                  </div>
-                </div>
-                <div className="col-xl-6 col-lg-6">
-                  <div className="reservation_input_single">
-                    <label>select person</label>
-                    <select
-                            className="w-full h-10 rounded-sm"
-                            value={input.persons}
-                            onChange={handlePersonsChange}
-                          >
-                            <option>Select</option>
-                            <option value="1">1 person</option>
-                            <option value="2">2 persons</option>
-                            <option value="3">3 persons</option>
-                            <option value="4">4 persons</option>
-                            <option value="5">5 persons</option>
-                          </select>
-                  </div>
+                <div style={{
+                      textAlign: "center", 
+                      padding: "20px", 
+                       //backgroundColor: "#f8f9fa", 
+                        borderRadius: "10px", 
+                       boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", 
+                       maxWidth: "600px", 
+                       margin: "30px auto", 
+                       fontFamily: "'Poppins', sans-serif"
+                  }}>
+                  <h1 style={{
+      color: "#0A0400", 
+      fontSize: "2.5rem", 
+      marginBottom: "15px"
+  }}>
+    Reserve Your Spot at Our Elegant Dining Tables
+  </h1>
+  <p style={{
+      color: "#ffffff", 
+      fontSize: "1.2rem", 
+      lineHeight: "1.8", 
+      margin: "0 10px"
+  }}>
+    Experience the perfect blend of comfort and sophistication with our luxurious dining tables, thoughtfully designed to elevate your moments. Whether you're planning an intimate dinner, a joyous celebration, or a casual outing.
+  </p>
                 </div>
                 <div className="col-xl-12">
-                  <button type="submit" className="common_btn">confirm</button>
+                 <Link to='/table'> <button type="submit" style={{backgroundColor:'#09052e'}} className="common_btn">Book Luxurious Table</button></Link>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
-<section className="counter_part mb-4 text-white" style={{background: 'url(images/counter_bg.jpg)'}}>
+<section className="menu menu_page mt_100 xs_mt_70 mb_100 xs_mb_70">
+  <div className="container">
+    <div className="row">
+      <div className="col-xl-6 col-lg-6 wow fadeInUp" data-wow-duration="1s">
+        <div className="section_heading mb_25">
+          <h4>food Menu</h4>
+          <h2>Popular Delicious Foods</h2>
+        </div>
+      </div>
+      <div className="col-xl-6 col-lg-6 wow fadeInUp" data-wow-duration="1s">
+      <div className="menu_filter d-flex flex-wrap">
+        <Link
+          to="/menu?category=pizza"
+          className="bg-red-500 text-white font-semibold rounded-full py-2 px-4 inline-flex items-center space-x-2 transition-transform transform hover:scale-105 hover:bg-red-600 shadow-lg"
+        >
+          <span className='font-serif'>Explore more...</span>
+          <span className="arrow-icon transition-transform duration-300 transform group-hover:translate-x-1">→</span>
+        </Link>
+      </div>
+    </div>
+    </div>
+    {pizzas.length === 0 && <Loader />}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8" data-wow-duration="1s">
+      {pizzas.map((item) => (
+        <div key={item._id} className="menu_item">
+          <div className="menu_item_img">
+            <img src={item.image.filePath} alt={item.name} className="img-fluid w-100" />
+          </div>
+          <div className="menu_item_text">
+            <Link className="category" to={`/menu_detail/${item._id}`}>{item.category}</Link>
+            <a className="title" href="menu_details.html">{item.name}</a>
+            <p className="rating">
+              <i className="fas fa-star" />
+              <i className="fas fa-star" />
+              <i className="fas fa-star" />
+              <i className="fas fa-star-half-alt" />
+              <i className="far fa-star" />
+              <span>24</span>
+            </p>
+            <h5 className="price">${item.price}.00 <del>$90.00</del></h5>
+            <Link className="add_to_cart" to={`/menu_detail/${item._id}`}>add
+              to cart</Link>
+            <ul className="d-flex flex-wrap justify-content-end">
+              <li><Link to={`/menu_detail/${item._id}`}><i className="far fa-eye" /></Link></li>
+            </ul>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+
+<section className="counter_part text-white" style={{background: 'url(images/counter_bg.jpg)'}}>
   <div className="counter_overlay pt_120 xs_pt_90 pb_100 xs_pb_0">
     <div className="container">
       <div className="row">

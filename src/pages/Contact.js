@@ -1,9 +1,17 @@
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import {Link} from 'react-router-dom'
-import {useEffect} from 'react'
+import {useEffect,useState} from 'react'
 
 const Contact=()=>{
+
+  const [input,setInput]=useState({
+   name:'',
+   email:"",
+   phone:"",
+   subject:"",
+   message:""
+  })
 
   useEffect(()=>{
     window.scrollTo(0,0);
@@ -12,6 +20,7 @@ const Contact=()=>{
     const handleContact=(e)=>{
 
       e.preventDefault();
+      console.log(input)
 
     }
     return (
@@ -65,31 +74,31 @@ const Contact=()=>{
                 <div className="col-xl-12">
                   <div className="contact_form_input">
                     <span><i className="fas fa-user" /></span>
-                    <input type="text" placeholder="Name" />
+                    <input type="text" placeholder="Name" value={input.name} onChange={(e)=>setInput({...input,name:e.target.value})} />
                   </div>
                 </div>
                 <div className="col-xl-6">
                   <div className="contact_form_input">
                     <span><i className="fas fa-envelope" /></span>
-                    <input type="email" placeholder="Email" />
+                    <input type="email" placeholder="Email" value={input.email} onChange={(e)=>setInput({...input,email:e.target.value})} />
                   </div>
                 </div>
                 <div className="col-xl-6">
                   <div className="contact_form_input">
                     <span><i className="fas fa-phone-alt" /></span>
-                    <input type="text" placeholder="Phone" />
+                    <input type="text" placeholder="Phone" value={input.phone} onChange={(e)=>setInput({...input,phone:e.target.value})}/>
                   </div>
                 </div>
                 <div className="col-xl-12">
                   <div className="contact_form_input">
                     <span><i className="fas fa-book" /></span>
-                    <input type="text" placeholder="Subject" />
+                    <input type="text" placeholder="Subject" value={input.subject} onChange={(e)=>setInput({...input,subject:e.target.value})}/>
                   </div>
                 </div>
                 <div className="col-xl-12">
                   <div className="contact_form_input textarea">
                     <span><i className="fas fa-pen" /></span>
-                    <textarea rows={5} placeholder="Message" defaultValue={""} />
+                    <textarea rows={5} placeholder="Message" value={input.message} onChange={(e)=>setInput({...input,message:e.target.value})}/>
                   </div>
                   <button className="common_btn" type="submit">send message</button>
                 </div>
@@ -102,7 +111,19 @@ const Contact=()=>{
         <div className="row mt_100 xs_mt_70">
           <div className="col-12 wow fadeInUp" data-wow-duration="1s">
             <div className="contact_map">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9909.325630591133!2d74.28057531596438!3d31.453754382304044!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39190145ae97af17%3A0x6d1f02b5cd2ab9f7!2sUniversity%20of%20Education!5e1!3m2!1sen!2s!4v1730056337687!5m2!1sen!2s" width="600" height="450" style={{border:"0"}} allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>            </div>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9909.325630591133!2d74.28057531596438!3d31.453754382304044!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39190145ae97af17%3A0x6d1f02b5cd2ab9f7!2sUniversity%20of%20Education!5e1!3m2!1sen!2s!4v1730056337687!5m2!1sen!2s"
+              width="600"
+              height="450"
+              style={{ border: "0" }}
+              allowFullScreen // Corrected property
+              title="My Location"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade" // Corrected property
+           >
+           </iframe>
+
+            </div>
           </div>
         </div>
       </div>

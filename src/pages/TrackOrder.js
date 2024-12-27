@@ -71,6 +71,8 @@ const TrackOrder = () => {
 
   const {items}=tracking
 
+  console.table(items)
+
 
   return (
     <div className="col-xl-9 col-lg-8 wow fadeInUp w-full h-[550px] overflow-y-auto" data-wow-duration="1s">
@@ -82,9 +84,9 @@ const TrackOrder = () => {
         <div className="track_order">
           <ul>
             <li className={`${status === 'Pending' ? 'active' : '' || status === 'Completed' ? 'active' : ''}`}>order pending</li>
-            <li className={`${status === 'Completed' ? 'active' : ''}`}>order accept</li>
-            <li className={`${status === 'Completed' ? 'active' : ''}`}>order process</li>
-            <li className={`${status === 'Completed' ? 'active' : ''}`}>on the way</li>
+            <li className={`${minutesLeft === 28 ? 'active' : '' || status === 'Completed' ? 'active' : ''}`}>order accept</li>
+            <li className={`${minutesLeft === 28 ? 'active' : '' || status === 'Completed' ? 'active' : ''}`}>order process</li>
+            <li className={`${minutesLeft === 20 ? 'active' : '' || status === 'Completed' ? 'active' : ''}`}>on the way</li>
             <li className={`${status === 'Completed' ? 'active' : ''}`}>Completed</li>
           </ul>
         </div>
@@ -119,13 +121,13 @@ const TrackOrder = () => {
                     <span className="coca_cola">{item.flavour}</span>
                   </td>
                   <td className="price">
-                    <b>${item.itemtotalprice}</b>
+                    <b>${item.itemId.price}</b>
                   </td>
                   <td className="qnty">
                     <b>{item.quantity}</b>
                   </td>
                   <td className="total">
-                    <b>${item.quantity * item.itemtotalprice}</b>
+                    <b>${item.quantity * item.itemId.price}</b>
                   </td>
                 </tr>))}
               </tbody>
