@@ -144,36 +144,45 @@ const TableDetail = () => {
                 </div>
 
                 {/* Time Dropdown */}
-                <select
-  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
-  value={bookingTime}
-  onChange={(e) => setBookingTime(e.target.value)}
-  required
->
-  <option value="">Select a time</option>
-  {bookingDate && [
-    '12:00 PM',
-    '1:00 PM',
-    '2:00 PM',
-    '3:00 PM',
-    '4:00 PM',
-    '5:00 PM',
-    '6:00 PM',
-    '7:00 PM',
-    '8:00 PM',
-    '9:00 PM',
-    '10:00 PM',
-    '11:00 PM',
-  ].map((timeOption) => (
-    <option
-      key={timeOption}
-      value={timeOption}
-      disabled={Array.isArray(time?.bookingTimes) && time.bookingTimes.includes(timeOption)}
-    >
-      {timeOption}
+                <div className="flex-1 min-w-[200px]">
+  <label className="block text-sm font-medium text-gray-700 mb-1">Select Time</label>
+  <select
+    className="w-full border-2 border-gray-300 rounded-md px-3 py-2 text-sm"
+    value={bookingTime}
+    onChange={(e) => setBookingTime(e.target.value)}
+    required
+  >
+    <option value="" disabled className="text-red-500">
+      Select a time
     </option>
-  ))}
-</select>
+    {bookingDate && [
+      '12:00 PM',
+      '1:00 PM',
+      '2:00 PM',
+      '3:00 PM',
+      '4:00 PM',
+      '5:00 PM',
+      '6:00 PM',
+      '7:00 PM',
+      '8:00 PM',
+      '9:00 PM',
+      '10:00 PM',
+      '11:00 PM',
+    ].map((timeOption) => {
+      const isBooked = time?.bookingTimes?.includes(timeOption);
+      return (
+        <option
+          key={timeOption}
+          value={timeOption}
+          className={isBooked ? 'text-red-500' : 'text-green-500'}
+          disabled={isBooked}
+        >
+          {isBooked ? `${timeOption} (Booked)` : timeOption}
+        </option>
+      );
+    })}
+  </select>
+</div>
 
 
                 {/* Phone Number */}

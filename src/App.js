@@ -22,6 +22,7 @@ import NotFound from './pages/NotFound'
 import Contact from './pages/Contact'
 import Table from "./pages/Table";
 import TableDetail from "./pages/TableDetail";
+import Reservation from "./pages/Reservation";
 
 const queryClient=new QueryClient({
   defaultOptions:{
@@ -48,6 +49,7 @@ function App() {
          <Route path="/table" element={<Table/>}/>
          <Route exact path="/menu_detail/:id" element={<MenuDetail/>}/>
          <Route path="/order/:id" element={<Order/>}/>
+         <Route path="/reservation" element={<Reservation/>}/>
          <Route path="/services" element={<Services/>}/>
          <Route path="/login" element={authUser ? <Navigate to='/'/> : <Login/>}/>
          <Route path="/signup" element={<SignUp/>}/>

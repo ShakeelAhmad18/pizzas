@@ -1,10 +1,11 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom';
 
 const useCreateReservation = () => {
   const [loading, setIsLoading] = useState(false);
-
+  const navigate=useNavigate()
   const createReservation = async ({
     tableId,
     bookingDate,
@@ -37,6 +38,7 @@ const useCreateReservation = () => {
 
       const data = res.data;
       toast.success(data.message);
+      navigate('/reservation')
       
     } catch (error) {
       toast.error(error.message);
