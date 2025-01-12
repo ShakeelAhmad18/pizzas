@@ -23,6 +23,7 @@ import Contact from './pages/Contact'
 import Table from "./pages/Table";
 import TableDetail from "./pages/TableDetail";
 import Reservation from "./pages/Reservation";
+import Restaurant from "./pages/Restaurant";
 
 const queryClient=new QueryClient({
   defaultOptions:{
@@ -42,6 +43,7 @@ function App() {
         <ReactQueryDevtools initialIsOpen={false}/>
       <Router>
        <Routes>
+         <Route exact path="/restaurant" element={<Restaurant/>}/>
          <Route exact path='/' element={<Home/>}/>
          <Route path="/cart" element={!authUser ? <Navigate to='/login'/> : <Cart/>}/>
          <Route path="/menu" element={<Menu/>}/>
